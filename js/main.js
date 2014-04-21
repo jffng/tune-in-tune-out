@@ -64,7 +64,10 @@ function update () {
 	for (var i = 0; i < analyzer.frequencyBinCount; i++) {
 	  var value = freqDomain[i];
 	  // var percent = value / 256;
+	  oscillators[i] = Tone.context.createOscillator();
+	  oscillators[i].connect(vol);
 	  oscillators[i].frequency.value = mapRange([0, 256], [440, 880], value);
+	  oscillators[i].start();
 	  // var height = window.innerHeight * percent;
 	  // var offset = window.innerHeight - height - 1;
 	  // var barWidth = window.innerWidth/analyzer.frequencyBinCount;
@@ -76,9 +79,6 @@ function update () {
 
 $(document).ready(function() {
 	for (var i = 0; i < numOsc; i++) {
-	  oscillators[i] = Tone.context.createOscillator();
-	  oscillators[i].connect(vol);
-	  	  oscillators[i].start();
 
 	}
 
