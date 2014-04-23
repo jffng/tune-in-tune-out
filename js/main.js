@@ -76,7 +76,7 @@ Music.prototype.snapToNote = function(valueToBeTransformed) {
 
 var tone = new Tone();
 var mic = new Tone.Microphone();
-var feedbackDelay = new Tone.FeedbackDelay(.1);
+// var feedbackDelay = new Tone.FeedbackDelay(.1);
 var analyzer = Tone.context.createAnalyser();
 analyzer.fftSize = 64;
 var frequencyData = new Uint8Array(analyzer.frequencyBinCount);
@@ -84,47 +84,47 @@ var numOsc = analyzer.frequencyBinCount;
 var oscillators = {};
 var vol = tone.context.createGainNode();
 
-var drawCanvas = document.getElementById("testCanvas"); 
-var drawContext = drawCanvas.getContext("2d"); 
+var cMajor = new Music(261.626);
 
-drawCanvas.width = window.innerWidth;
-drawCanvas.height = window.innerHeight;
+// var drawCanvas = document.getElementById("testCanvas"); 
+// var drawContext = drawCanvas.getContext("2d"); 
+// drawCanvas.width = window.innerWidth;
+// drawCanvas.height = window.innerHeight;
 
 function update () {
 	requestAnimationFrame(update);
 	analyzer.getByteFrequencyData(frequencyData)
 	var freqDomain = new Uint8Array(analyzer.frequencyBinCount);
 	analyzer.getByteFrequencyData(freqDomain);
-	drawContext.clearRect ( 0 , 0 , window.innerWidth , window.innerHeight );
+	// drawContext.clearRect ( 0 , 0 , window.innerWidth , window.innerHeight );
 	for (var i = 0; i < analyzer.frequencyBinCount; i++) {
 	  var value = freqDomain[i];
-	  var percent = value / 256;
+	  oscillators[i].frequency.value = cMajor.snapToNote(value);
 
-	  // oscillators[i].frequency.value = mapRange([0, 256], [440, 880], value);
-	  var height = window.innerHeight * percent;
-	  var offset = window.innerHeight - height - 1;
-	  var barWidth = window.innerWidth/analyzer.frequencyBinCount;
-	  var hue = i/analyzer.frequencyBinCount * 360;
-	  drawContext.fillStyle = 'hsl(' + hue + ', 100%, 50%)';
-	  drawContext.fillRect(i * barWidth, offset, barWidth, height);
+	  // var percent = value / 256;
+	  // var height = window.innerHeight * percent;
+	  // var offset = window.innerHeight - height - 1;
+	  // var barWidth = window.innerWidth/analyzer.frequencyBinCount;
+	  // var hue = i/analyzer.frequencyBinCount * 360;
+	  // drawContext.fillStyle = 'hsl(' + hue + ', 100%, 50%)';
+	  // drawContext.fillRect(i * barWidth, offset, barWidth, height);
 	}
 }
 
 $(document).ready(function() {
-	// for (var i = 0; i < numOsc; i++) {
-	//   oscillators[i] = Tone.context.createOscillator();
-	//   oscillators[i].connect(vol);
-	//   	  oscillators[i].start();
+	for (var i = 0; i < numOsc; i++) {
+	  oscillators[i] = Tone.context.createOscillator();
+	  oscillators[i].connect(vol);
+	  oscillators[i].start();
+	}
 
-	// }
-
-	// vol.connect(tone);
-	// vol.gain.value = .75;
+	vol.connect(tone);
+	vol.gain.value = .75;
 	mic.connect(analyzer);
-	mic.connect(feedbackDelay);
+	// mic.connect(feedbackDelay);
 
 	// mic.toMaster();
-	feedbackDelay.toMaster();
+	// feedbackDelay.toMaster();
 	analyzer.toMaster();
 
 	tone.input.connect(tone.output);
