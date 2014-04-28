@@ -84,7 +84,7 @@ var numOsc = analyzer.frequencyBinCount;
 var oscillators = {};
 var vol = tone.context.createGainNode();
 
-var cMajor = new Music(261.626);
+var cMajor = new Music(440);
 
 // var drawCanvas = document.getElementById("testCanvas"); 
 // var drawContext = drawCanvas.getContext("2d"); 
@@ -97,9 +97,9 @@ function update () {
 	var freqDomain = new Uint8Array(analyzer.frequencyBinCount);
 	analyzer.getByteFrequencyData(freqDomain);
 	// drawContext.clearRect ( 0 , 0 , window.innerWidth , window.innerHeight );
-	for (var i = 0; i < analyzer.frequencyBinCount; i++) {
-	  var value = freqDomain[i];
-	  oscillators[i].frequency.value = cMajor.snapToNote(value);
+	for (var i = 0; i < analyzer.frequencyBinCount / 8; i++) {
+	  // var value = freqDomain[i];
+	  oscillators[i].frequency.value = cMajor.snapToNote(frequencyData[i]);
 
 	  // var percent = value / 256;
 	  // var height = window.innerHeight * percent;
@@ -119,7 +119,7 @@ $(document).ready(function() {
 	}
 
 	vol.connect(tone);
-	vol.gain.value = .75;
+	vol.gain.value = .25;
 	mic.connect(analyzer);
 	// mic.connect(feedbackDelay);
 
