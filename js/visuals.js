@@ -113,8 +113,6 @@ function initVisuals(){
 }
 
 function update(){
-	// var time = clock.getElapsedTime();
-	// var delta = clock.getDelta();
 	controls.update();
 	var count = 0;
 	updateAudio();
