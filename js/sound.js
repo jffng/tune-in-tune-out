@@ -2,9 +2,9 @@ var tone = new Tone();
 var mic = new Tone.Microphone();
 
 // CREATE FILTER
-var filter = Tone.context.createBiquadFilter();
-filter.type = 0;
-filter.frequency.value = 30;
+// var filter = Tone.context.createBiquadFilter();
+// filter.type = 0;
+// filter.frequency.value = 30;
 
 
 // CREATE ANALYSER
@@ -27,6 +27,7 @@ function updateAudio() {
 	for (var i = 0; i < samples; i++) {
 	  // var value = freqDomain[i];
 	  oscillators[i].frequency.value = cMajor.snapToNote(frequencyData[i]);
+	  if(oscillators[i].frequency.value < 220){ oscillators[i].stop(); } 
 	}
 }
 
@@ -40,9 +41,9 @@ function initAudio () {
 	  oscillators[i].connect(vol);
 	  oscillators[i].start();
 	}
-	
+
 	mic.connect(fft);
-	mic.connect(filter);
+	// mic.connect(filter);
 	fft.toMaster();
 
 	tone.input.connect(tone.output);

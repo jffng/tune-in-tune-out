@@ -1,12 +1,3 @@
-//Wave
-// var time = Math.PI/2;
-// var frequency = 0.01;
-// var amplitude = 3;
-// var offset = 0;
-// var tanW = new TanWave(time, frequency, amplitude, offset);
-// var sinW = [];
-// var spin;
-
 //Three.js
 var container;
 var width = window.innerWidth;
@@ -110,6 +101,8 @@ function initVisuals(){
 		objectsC.push(cube);
 		materialsC.push(cubeMaterial);		
 	}
+
+    window.addEventListener( 'resize', onWindowResize, false );
 }
 
 function update(){
@@ -141,6 +134,13 @@ function update(){
 		if (objectsC[i].position.y>0)
 			objectsC[i].position.y --;		
 	}
+}
+
+function onWindowResize() {
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+
+	renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
 function render(){
