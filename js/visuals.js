@@ -62,12 +62,6 @@ function initVisuals(){
 	//controls
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-	//waves
-	// for(var i=0; i<3; i++) {
-	// 	var sw = new SinWave(time, frequency*4, amplitude, offset);
-	// 	sinW.push(sw);
-	// }
-
 	//cube
 	var cubeGeometry = new THREE.CubeGeometry(10,10,10);
 	

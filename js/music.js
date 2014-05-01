@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //																			  //
-//							Helper Functions								  //
+//							HELPER FUNCTIONS								  //
 //																			  //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -10,14 +10,22 @@ function twelthRootOf(n) {
 }
 
 // map values
-var mapRange = function(from, to, num) {
+function mapRange(from, to, num) {
 	return to[0] + (num - from[0]) * (to[1] - to[0]) / (from[1] - from[0]);
 };
+
+function isUndef(val){
+	return typeof val === "undefined";
+}
+
+function createScale() {
+	// body...
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
 //																			  //
-//							Core Music Class								  //
+//							CORE MUSIC CLASS								  //
 //																			  //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -27,21 +35,24 @@ var mapRange = function(from, to, num) {
 var Music = function(_baseFreq) {
 	var baseFreq = _baseFreq;
 
-	var majorForwards = [2, 2, 1, 2, 2, 2, 1];
-	var majorBackwards = [-1, -2, -2, -2, -1, -2, -2];
+	// var majorForwards = [2, 2, 1, 2, 2, 2, 1];
+	// var majorBackwards = [-1, -2, -2, -2, -1, -2, -2];
 
-	var index = 1;
+	this.scaleF = [2, 2, 1, 2, 2, 2, 1];
+	this.scaleB = [-1, -2, -2, -2, -1, -2, -2];	
 
 	this.scale = [];
 	this.scale[0] = baseFreq;
 
-	for (var i = 0; i < majorForwards.length; i++){
-		this.scale[index] = this.scale[index-1] * twelthRootOf(majorForwards[index-1]);
-		index++;
+	//	this.scale = createScale()
+	this.index = 1;
+	for (var i = 0; i < this.scaleF.length; i++){
+		this.scale[this.index] = this.scale[this.index-1] * twelthRootOf(this.scaleF[this.index-1]);
+		this.index++;
 	}
-	for (var i = 1; i <= majorBackwards.length; i++){
-		if(i == 1) this.scale[i+index] = this.scale[0] * twelthRootOf(majorBackwards[i - 1]);
-		else this.scale[i+index] = this.scale[i+index-1] * twelthRootOf(majorBackwards[i - 1]);
+	for (var i = 1; i <= this.scaleF.length; i++){
+		if(i == 1) this.scale[i+this.index] = this.scale[0] * twelthRootOf(this.scaleB[i - 1]);
+		else this.scale[i+this.index] = this.scale[i+this.index-1] * twelthRootOf(this.scaleB[i - 1]);
 	}
 
 	this.scale.sort(function(a,b){
@@ -68,3 +79,72 @@ Music.prototype.snapToNote = function(valueToBeTransformed) {
 	return this.scale[returnNoteIndex];
 }
 
+//based on closure library 'inherit' function
+Music.extend = function(child, parent){
+	if (isUndef(parent)){
+		parent = Music;
+	}
+
+	/** @constructor */
+	function tempConstructor() {};
+	tempConstructor.prototype = parent.prototype;
+	child.prototype = new tempConstructor();
+	// * @override 
+	child.prototype.constructor = child;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//																			  //
+//							TRANSFORMING THE BASE CLASS						  //
+//																			  //
+////////////////////////////////////////////////////////////////////////////////
+
+Music.Transform = function (_baseFreq, transformObject) {
+	Music.call(this);
+
+	this.transformObj = transformObject;
+	// var baseFreq = _baseFreq;
+	for (var i = transformObject.f.length - 1; i >= 0; i--) {
+		this.scaleF[i] += transformObject.f[i];
+	};
+	// var majorForwards = [2, 2, 1, 2, 2, 2, 1];
+	// var majorBackwards = [-1, -2, -2, -2, -1, -2, -2];
+
+	// var index = 1;
+
+	// this.scale = [];
+	this.scale[0] = _baseFreq;
+	this.index = 1;
+	for (var i = 0; i < this.scaleF.length; i++){
+		this.scale[this.index] = this.scale[this.index-1] * twelthRootOf(this.scaleF[this.index-1]);
+		this.index++;
+	}
+	for (var i = 1; i <= this.scaleF.length; i++){
+		if(i == 1) this.scale[i+this.index] = this.scale[0] * twelthRootOf(this.scaleB[i - 1]);
+		else this.scale[i+this.index] = this.scale[i+this.index-1] * twelthRootOf(this.scaleB[i - 1]);
+	}
+
+	this.scale.sort(function(a,b){
+		return a - b;
+	});
+
+	this.scale.pop();
+
+}
+
+Music.Transform.prototype.setFreq = function (_baseFreq) {
+	
+}
+
+Music.extend(Music.Transform);
+
+////////////////////////////////////////////////////////////////////////////////
+//																			  //
+//							MUSIC THEORY									  //
+//																			  //
+////////////////////////////////////////////////////////////////////////////////
+
+var minor = {
+	'f':[0, 0, -1, 0, -1, -1, 0],
+	'b':[0, -1, -1, 0, -1, 0, 0]
+};
