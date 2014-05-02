@@ -18,7 +18,7 @@ function isUndef(val){
 	return typeof val === "undefined";
 }
 
-function average (arr)
+function average(arr)
 {
 	return _.reduce(arr, function(memo, num)
 	{
@@ -29,15 +29,14 @@ function average (arr)
 function createScale(baseFreq, interval) {
 	var scale = [];
 	scale[0] = baseFreq; 
-	for (var i = 1; i < interval.length*4; i++){
-		scale[i] = scale[i-1] * twelthRootOf(this.intervalUp[i-1]);
+	for (var i = 1; i <= interval.length*6; i++){
+		scale[i] = scale[i-1] * twelthRootOf(interval[i-1]);
+		if(i > 7) scale[i] = scale[i-1] * twelthRootOf(interval[i-7-1]);
+		if(i > 14) scale[i] = scale[i-1] * twelthRootOf(interval[i-14-1]);
+		if(i > 21) scale[i] = scale[i-1] * twelthRootOf(interval[i-21-1]);
+		if(i > 28) scale[i] = scale[i-1] * twelthRootOf(interval[i-28-1])
+		if(i > 35) scale[i] = scale[i-1] * twelthRootOf(interval[i-35-1])
 	}
-
-	this.scale.sort(function(a,b){
-		return a - b;
-	});
-
-	this.scale.pop();
 
 	return scale;
 }
@@ -48,35 +47,29 @@ function createScale(baseFreq, interval) {
 //																			  //
 ////////////////////////////////////////////////////////////////////////////////
 
-// var maxFreq = 20000;
-
 // instantiate the music class with a base reference frequency 
 var Music = function(_baseFreq) {
 	var baseFreq = _baseFreq;
 
 	this.interval = [2, 2, 1, 2, 2, 2, 1];
-	this.intervalDown = [-1, -2, -2, -2, -1, -2, -2, -1, -2, -2, -2, -1, -2, -2, -1];	
-
-	this.scale = [];
-	this.scale[0] = baseFreq;
 
 	this.scale = createScale(baseFreq, this.interval);
 
-	// this.index = 1;
-	for (var i = 0; i < this.intervalUp.length; i++){
-		this.scale[this.index] = this.scale[this.index-1] * twelthRootOf(this.intervalUp[this.index-1]);
-		this.index++;
-	}
-	for (var i = 1; i <= this.intervalUp.length; i++){
-		if(i == 1) this.scale[i+this.index] = this.scale[0] * twelthRootOf(this.intervalDown[i - 1]);
-		else this.scale[i+this.index] = this.scale[i+this.index-1] * twelthRootOf(this.intervalDown[i - 1]);
-	}
+	// // this.index = 1;
+	// for (var i = 0; i < this.intervalUp.length; i++){
+	// 	this.scale[this.index] = this.scale[this.index-1] * twelthRootOf(this.intervalUp[this.index-1]);
+	// 	this.index++;
+	// }
+	// for (var i = 1; i <= this.intervalUp.length; i++){
+	// 	if(i == 1) this.scale[i+this.index] = this.scale[0] * twelthRootOf(this.intervalDown[i - 1]);
+	// 	else this.scale[i+this.index] = this.scale[i+this.index-1] * twelthRootOf(this.intervalDown[i - 1]);
+	// }
 
-	this.scale.sort(function(a,b){
-		return a - b;
-	});
+	// this.scale.sort(function(a,b){
+	// 	return a - b;
+	// });
 
-	this.scale.pop();
+	// this.scale.pop();
 }
 
 Music.prototype.snapToNote = function(valueToBeTransformed) {

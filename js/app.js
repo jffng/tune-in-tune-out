@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	//initAudio();
-	//initVisuals();
-	//animate();		
+	initAudio();
+	initVisuals();
+	animate();		
 });
