@@ -62,15 +62,9 @@ function initVisuals(){
 	//controls
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-	//waves
-	// for(var i=0; i<3; i++) {
-	// 	var sw = new SinWave(time, frequency*4, amplitude, offset);
-	// 	sinW.push(sw);
-	// }
-
 	//cube
 	var cubeGeometry = new THREE.CubeGeometry(10,10,10);
-	
+
 	for(var i=0; i<samples; i++){
 		var cubeMaterial = new THREE.MeshLambertMaterial({color: 0x35d8c0});
 		var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
@@ -109,6 +103,7 @@ function update(){
 	controls.update();
 	var count = 0;
 	updateAudio();
+	
 	for(var i=0; i<objects.length; i++){
 		if(frequencyData[i]>250){
 			objects[i].material.color.setHex(0xffff00);
@@ -147,8 +142,17 @@ function render(){
 	renderer.render(scene, camera);
 }
 
+var framesToSkip = 10, counter = 0;
+
 function animate(){
-	requestAnimationFrame(animate);
+	if(counter<framesToSkip){
+		counter++;
+		requestAnimationFrame(animate);
+		return;
+	}
 	update();
 	render();
+
+	counter = 0;
+	requestAnimationFrame(animate);
 }
