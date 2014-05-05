@@ -15,46 +15,62 @@ var frequencyData = new Uint8Array(samples);
 
 // CREATE OSCILLATORS
 var oscillators = {};
+var oscVol = {};
 var numOsc = samples;
 
 // GLOBAL MUSIC OBJECT
-// var aMinor = new Music(440, minor);
+var base = 220;
+var music = new Music.Transform(base, lydian);
 
+var objB = [], objC = [];
 
 function updateAudio() {
 	fft.getByteFrequencyData(frequencyData);
-	// var freqDomain = new Uint8Array(analyzer.frequencyBinCount);
-	// fft.getByteFrequencyData(freqDomain);
+	
+	var count = 0;
+	for(var i=0; i<samples; i++){
+		if(frequencyData[i]>100){
+			objB[i]=(frequencyData[i]);
+			objC[count]=(frequencyData[i]);
+			count ++;
 
-	for (var i = 0; i < samples; i++) {
-	  // var value = freqDomain[i];
-	  // if(frequencyData[i] > 150){ 
-	  if(i % 8 == 0)
-	  	var thisOsc = i / 8;
-	  	oscillators[thisOsc].frequency.value = aMinor.snapToNote(frequencyData[i]);	  	
-	  // }
-	  // else oscillators[i].frequency.value = 440;
-	  // if(oscillators[i].frequency.value < 220){ oscillators[i].stop(); } 
+		} else {
+			if (objB[i]>0) objB[i] --;
+		}
+	}
+
+	for(var i=0; i<objC.length; i++){
+		if (objC[i]>0) objC[i] --;		
+	}
+	
+	for (var i=0; i<objC.length; i++) {
+		oscVol[i].gain.value = mapRange( [0, 256], [0, .05], objects[i].position.y);
+		oscillators[i].setFrequency(music.snapToNote(objC[i]), 1);
 	}
 }
 
 function initAudio () {
-	var vol = tone.context.createGainNode();
-	vol.connect(tone);
-	vol.gain.value = .25;
-
-	for (var i = 0; i < samples / 8; i++) {
-	  oscillators[i] = Tone.context.createOscillator();
-	  oscillators[i].connect(vol);
-	  oscillators[i].start();
+	for (var i = 0; i < numOsc; i++) {
+		oscVol[i] = tone.context.createGainNode();
+		oscVol[i].gain.value = 0;
+		oscVol[i].connect(tone);
+		oscillators[i] = new Tone.Oscillator(base, "sawtooth");
+		oscillators[i].connect(oscVol[i]);
+		oscillators[i].start();
 	}
 
 	mic.connect(fft);
-	// mic.connect(filter);
-	fft.toMaster();
+	mic.start();
 
 	tone.input.connect(tone.output);
-		tone.toMaster();
+	tone.toMaster();
 
-	mic.start();
+	////////// LAURA ///////////
+	for(var i=0; i<samples; i++){
+		objB.push(0);
+	}
+
+	for(var i=0; i<samples/4; i++){
+		objC.push(0);
+	}
 }

@@ -39,7 +39,7 @@ function initVisuals(){
 	//camera
 	camera = new THREE.PerspectiveCamera( 55, width/height, 0.1, 100000 );
 	scene.add(camera);
-	camera.position.set(0,50,50);
+	camera.position.set(760,84,183);
 	camera.lookAt(scene.position);
 
 	scene.fog = new THREE.FogExp2(0xcccccc, 0.0005);
@@ -111,7 +111,7 @@ function update(){
 			objectsB[i].position.y = frequencyData[i];
 			objectsC[count].position.y = frequencyData[count];
 
-		} else if(frequencyData[i]>200){
+		} else if(frequencyData[i]>100){
 			objects[i].material.color.setHex(0xff0000);
 			objectsB[i].material.color.setHex(0xf084e9);
 		} else {
@@ -141,8 +141,23 @@ function render(){
 	renderer.render(scene, camera);
 }
 
+var framesToSkip = 10, counter = 0;
+
 function animate(){
-	requestAnimationFrame(animate);
 	update();
 	render();
+	requestAnimationFrame(animate);
 }
+
+// function animate(){
+// 	if(counter<framesToSkip){
+// 		counter++;
+// 		requestAnimationFrame(animate);
+// 		return;
+// 	}
+// 	update();
+// 	render();
+
+// 	counter = 0;
+// 	requestAnimationFrame(animate);
+// }

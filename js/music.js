@@ -102,10 +102,6 @@ Music.Transform = function (_baseFreq, transformObject) {
 	this.scale = createScale(baseFreq, this.interval);
 }
 
-// Music.Transform.prototype.setFreq = function (_baseFreq) {
-// 	this.scale[0] = 	
-// }
-
 Music.extend(Music.Transform);
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -117,4 +113,5 @@ Music.extend(Music.Transform);
 var naturalMinor = [0, -1, 0, -1, 0, -1, 0];
 var harmonicMinor = [0, -1, 0, 0, -1, 0, 0];
 var melodicMinor = [0, -1, 0, 0, 0, 0, 0];
+var lydian = [0, 0, 1, 0, 0, 0, 0]
 
