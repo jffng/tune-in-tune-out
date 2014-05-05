@@ -29,13 +29,10 @@ function average(arr)
 function createScale(baseFreq, interval) {
 	var scale = [];
 	scale[0] = baseFreq; 
-	for (var i = 1; i <= interval.length*6; i++){
+	for (var i = 1; i <= interval.length*2; i++){
 		scale[i] = scale[i-1] * twelthRootOf(interval[i-1]);
 		if(i > 7) scale[i] = scale[i-1] * twelthRootOf(interval[i-7-1]);
 		if(i > 14) scale[i] = scale[i-1] * twelthRootOf(interval[i-14-1]);
-		if(i > 21) scale[i] = scale[i-1] * twelthRootOf(interval[i-21-1]);
-		if(i > 28) scale[i] = scale[i-1] * twelthRootOf(interval[i-28-1])
-		if(i > 35) scale[i] = scale[i-1] * twelthRootOf(interval[i-35-1])
 	}
 
 	return scale;
@@ -54,22 +51,6 @@ var Music = function(_baseFreq) {
 	this.interval = [2, 2, 1, 2, 2, 2, 1];
 
 	this.scale = createScale(baseFreq, this.interval);
-
-	// // this.index = 1;
-	// for (var i = 0; i < this.intervalUp.length; i++){
-	// 	this.scale[this.index] = this.scale[this.index-1] * twelthRootOf(this.intervalUp[this.index-1]);
-	// 	this.index++;
-	// }
-	// for (var i = 1; i <= this.intervalUp.length; i++){
-	// 	if(i == 1) this.scale[i+this.index] = this.scale[0] * twelthRootOf(this.intervalDown[i - 1]);
-	// 	else this.scale[i+this.index] = this.scale[i+this.index-1] * twelthRootOf(this.intervalDown[i - 1]);
-	// }
-
-	// this.scale.sort(function(a,b){
-	// 	return a - b;
-	// });
-
-	// this.scale.pop();
 }
 
 Music.prototype.snapToNote = function(valueToBeTransformed) {
@@ -112,30 +93,13 @@ Music.extend = function(child, parent){
 Music.Transform = function (_baseFreq, transformObject) {
 	Music.call(this);
 
-	// var baseFreq = _baseFreq;
+	var baseFreq = _baseFreq;
+
 	for (var i = transformObject.length - 1; i >= 0; i--) {
-		this.intervalUp[i] += transformObject.f[i];
-	};
-	for (var i = transformObject.b.length - 1; i >= 0; i--) {
-		this.intervalDown[i] += transformObject.b[i];
+		this.interval[i] += transformObject[i];
 	};
 
-	this.scale[0] = _baseFreq;
-	this.index = 1;
-	for (var i = 0; i < this.intervalUp.length; i++){
-		this.scale[this.index] = this.scale[this.index-1] * twelthRootOf(this.intervalUp[this.index-1]);
-		this.index++;
-	}
-	for (var i = 1; i <= this.intervalUp.length; i++){
-		if(i == 1) this.scale[i+this.index] = this.scale[0] * twelthRootOf(this.intervalDown[i - 1]);
-		else this.scale[i+this.index] = this.scale[i+this.index-1] * twelthRootOf(this.intervalDown[i - 1]);
-	}
-
-	this.scale.sort(function(a,b){
-		return a - b;
-	});
-
-	this.scale.pop();
+	this.scale = createScale(baseFreq, this.interval);
 }
 
 // Music.Transform.prototype.setFreq = function (_baseFreq) {
@@ -150,7 +114,7 @@ Music.extend(Music.Transform);
 //																			  //
 ////////////////////////////////////////////////////////////////////////////////
 
-var minor = {
-	'f':[0, 0, -1, 0, -1, -1, 0, 0, 0, -1, 0, -1, -1, 0],
-	'b':[0, -1, -1, 0, -1, 0, 0, 0, -1, -1, 0, -1, 0, 0]
-};
+var naturalMinor = [0, -1, 0, -1, 0, -1, 0];
+var harmonicMinor = [0, -1, 0, 0, -1, 0, 0];
+var melodicMinor = [0, -1, 0, 0, 0, 0, 0];
+

@@ -18,7 +18,7 @@ var oscillators = {};
 var numOsc = samples;
 
 // GLOBAL MUSIC OBJECT
-var aMinor = new Music(440, minor);
+// var aMinor = new Music(440, minor);
 
 
 function updateAudio() {
