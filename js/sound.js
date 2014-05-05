@@ -19,8 +19,7 @@ var oscVol = {};
 var numOsc = samples;
 
 // GLOBAL MUSIC OBJECT
-var base = 220;
-var music = new Music.Transform(base, lydian);
+var music = new Music(baseNotes.A);
 
 var objB = [], objC = [];
 
@@ -54,7 +53,7 @@ function initAudio () {
 		oscVol[i] = tone.context.createGainNode();
 		oscVol[i].gain.value = 0;
 		oscVol[i].connect(tone);
-		oscillators[i] = new Tone.Oscillator(base, "sawtooth");
+		oscillators[i] = new Tone.Oscillator(220, "square");
 		oscillators[i].connect(oscVol[i]);
 		oscillators[i].start();
 	}

@@ -26,23 +26,25 @@ function average(arr)
 	}, 0) / arr.length;
 }
 
-function createScale(baseFreq, interval) {
-	var scale = [];
-	scale[0] = baseFreq; 
-	for (var i = 1; i <= interval.length*2; i++){
-		scale[i] = scale[i-1] * twelthRootOf(interval[i-1]);
-		if(i > 7) scale[i] = scale[i-1] * twelthRootOf(interval[i-7-1]);
-		if(i > 14) scale[i] = scale[i-1] * twelthRootOf(interval[i-14-1]);
-	}
-
-	return scale;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 //																			  //
 //							CORE MUSIC CLASS								  //
 //																			  //
 ////////////////////////////////////////////////////////////////////////////////
+
+function createScale(baseFreq, interval, numNotes) {
+	var scale = [];
+	scale[0] = baseFreq; 
+	for (var i = 1; i <= interval.length*4; i++){
+		scale[i] = scale[i-1] * twelthRootOf(interval[i-1]);
+		if(i > numNotes) scale[i] = scale[i-1] * twelthRootOf(interval[i-numNotes-1]);
+		if(i > numNotes*2) scale[i] = scale[i-1] * twelthRootOf(interval[i-numNotes*2-1]);
+		if(i > numNotes*3) scale[i] = scale[i-1] * twelthRootOf(interval[i-numNotes*3-1]);
+		if(i > numNotes*4) scale[i] = scale[i-1] * twelthRootOf(interval[i-numNotes*3-1]);
+	}
+
+	return scale;
+}
 
 // instantiate the music class with a base reference frequency 
 var Music = function(_baseFreq) {
@@ -50,7 +52,7 @@ var Music = function(_baseFreq) {
 
 	this.interval = [2, 2, 1, 2, 2, 2, 1];
 
-	this.scale = createScale(baseFreq, this.interval);
+	this.scale = createScale(baseFreq, this.interval, this.interval.length);
 }
 
 Music.prototype.snapToNote = function(valueToBeTransformed) {
@@ -99,7 +101,7 @@ Music.Transform = function (_baseFreq, transformObject) {
 		this.interval[i] += transformObject[i];
 	};
 
-	this.scale = createScale(baseFreq, this.interval);
+	this.scale = createScale(baseFreq, this.interval, this.interval.length);
 }
 
 Music.extend(Music.Transform);
@@ -110,8 +112,31 @@ Music.extend(Music.Transform);
 //																			  //
 ////////////////////////////////////////////////////////////////////////////////
 
-var naturalMinor = [0, -1, 0, -1, 0, -1, 0];
-var harmonicMinor = [0, -1, 0, 0, -1, 0, 0];
-var melodicMinor = [0, -1, 0, 0, 0, 0, 0];
-var lydian = [0, 0, 1, 0, 0, 0, 0]
+var modes = {
+	dorian: [0, -1, 0, 0, 0, -1, 0],
+	phrygian: [-1, -1, 0, 0, -1, -1, 0],
+	lydian: [0, 0, 1, 0, 0, 0, 0],
+	mixolydian: [0, 0, 0, 0, 0, -1, 0],
+	aeolian: [0, -1, 0, -1, 0, -1, 0],
+	locrian: [-1, -1, 0, -1, -1, -1, 0],
+};
 
+var scales = {
+	naturalMinor: [0, -1, 0, -1, 0, -1, 0],
+	harmonicMinor: [0, -1, 0, 0, -1, 0, 0],
+	melodicMinor: [0, -1, 0, 0, 0, 0, 0],
+}
+
+var baseNotes = {
+	G: 97.9989,
+	Gb:	92.4986,
+	F:	87.3071,
+	E:	82.4069,
+	Eb:	77.7817,
+	D:	73.4162,
+	Db:	69.2957,
+	C:	65.4064,
+	B:	61.7354,
+	Bb:	58.2705,
+	A:	55
+};

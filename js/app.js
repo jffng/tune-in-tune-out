@@ -1,5 +1,6 @@
 $(document).ready(function() {
-	initAudio();
-	initVisuals();
-	animate();		
+	initInterface();
+	// initAudio();
+	// initVisuals();
+	// animate();		
 });

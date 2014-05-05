@@ -13,22 +13,6 @@ var mouse = new THREE.Vector2();
 var objectsB = [], materialsB = [];
 var objectsC = [], materialsC = [];
 
-//Web Audio API
-var context, source, analyser, buffer, audioBuffer;
-var analyserView1;
-var bufferLoader;
-
-var isPlaying = false;
-var sourceNode = null;
-var analyser = null;
-var theBuffer = null;
-var detectorElem, canvasContext, pitchElem, noteElem, detuneElem, detuneAmount;
-var confidence = 0;
-var currentPitch = 0;
-
-var buf;
-var setup = false;
-
 function initVisuals(){
 	//THREE.JS
 	container = document.createElement('div');
@@ -143,21 +127,21 @@ function render(){
 
 var framesToSkip = 10, counter = 0;
 
-function animate(){
-	update();
-	render();
-	requestAnimationFrame(animate);
-}
-
 // function animate(){
-// 	if(counter<framesToSkip){
-// 		counter++;
-// 		requestAnimationFrame(animate);
-// 		return;
-// 	}
 // 	update();
 // 	render();
-
-// 	counter = 0;
 // 	requestAnimationFrame(animate);
 // }
+
+function animate(){
+	if(counter<framesToSkip){
+		counter++;
+		requestAnimationFrame(animate);
+		return;
+	}
+	update();
+	render();
+
+	counter = 0;
+	requestAnimationFrame(animate);
+}

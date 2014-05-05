@@ -1,31 +1,32 @@
 <html>
-<head>
-	<title>Tune In, Tune Out</title>
-	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-    <script charset="utf-8" type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>    	
-	<script type="text/javascript" src='libs/Tone.js'></script>
-	<script type="text/javascript" src='libs/three.min.js'></script>
-	<script type="text/javascript" src='libs/BufferLoader.js'></script>
-	<script type="text/javascript" src='libs/OrbitControls.js'></script>
-	<script type="text/javascript" src='js/music.js'></script>
-	<script type="text/javascript" src='js/sound.js'></script>
-	<script type="text/javascript" src='js/visuals.js'></script>
-    <style type="text/css" src="style.css"></style>	
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-</head>
+	<head>
+		<title>Tune In, Tune Out</title>
+		<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+		<script charset="utf-8" type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>    	
+		<script type="text/javascript" src='libs/Tone.js'></script>
+		<script type="text/javascript" src='libs/three.min.js'></script>
+		<script type="text/javascript" src='libs/BufferLoader.js'></script>
+		<script type="text/javascript" src='libs/OrbitControls.js'></script>
+		<script type="text/javascript" src='js/music.js'></script>
+		<script type="text/javascript" src='js/sound.js'></script>
+		<script type="text/javascript" src='js/visuals.js'></script>
+		<style type="text/css" src="style.css"></style>	
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src='js/interface.js'></script>
+	</head>
 	<body>
 	 	<script type="text/javascript" src="js/app.js"></script>
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				</button>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
 					<a class="navbar-brand" href="#">Tune In, Tune Out</a>
 				</div>
 
@@ -34,38 +35,17 @@
 				<ul class="nav navbar-nav">
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Key <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-								<li class="divider"></li>
-								<li><a href="#">One more separated link</a></li>
+							<ul class="dropdown-menu" id="key">
 							</ul>
 					</li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Scale <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-								<li class="divider"></li>
-								<li><a href="#">One more separated link</a></li>
+							<ul id="scale" class="dropdown-menu">
 							</ul>
 					</li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mode <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-								<li class="divider"></li>
-								<li><a href="#">One more separated link</a></li>
+							<ul id="mode" class="dropdown-menu">
 							</ul>
 					</li>					
 				</ul>
