@@ -125,7 +125,7 @@ function render(){
 	renderer.render(scene, camera);
 }
 
-var framesToSkip = 10, counter = 0;
+var framesToSkip = 8, counter = 0;
 
 // function animate(){
 // 	update();

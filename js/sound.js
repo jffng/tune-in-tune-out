@@ -17,9 +17,10 @@ var frequencyData = new Uint8Array(samples);
 var oscillators = {};
 var oscVol = {};
 var numOsc = samples;
+var oscType = "square";
 
 // GLOBAL MUSIC OBJECT
-var music = new Music(baseNotes.A);
+var music = new Music(ref);
 
 var objB = [], objC = [];
 
@@ -48,12 +49,19 @@ function updateAudio() {
 	}
 }
 
+function changeOscillator (_oscType) {
+	for(var i = 0; i < objC.length; i++){
+		console.log(sounds[_oscType]);
+		oscillators[i].oscillator.type = sounds[_oscType];
+	}
+}
+
 function initAudio () {
 	for (var i = 0; i < numOsc; i++) {
 		oscVol[i] = tone.context.createGainNode();
 		oscVol[i].gain.value = 0;
 		oscVol[i].connect(tone);
-		oscillators[i] = new Tone.Oscillator(220, "square");
+		oscillators[i] = new Tone.Oscillator(220, oscType);
 		oscillators[i].connect(oscVol[i]);
 		oscillators[i].start();
 	}
@@ -72,4 +80,11 @@ function initAudio () {
 	for(var i=0; i<samples/4; i++){
 		objC.push(0);
 	}
+}
+
+var sounds = {
+	sine: 0,
+	square: 1,
+	sawtooth: 2,
+	triangle: 3
 }

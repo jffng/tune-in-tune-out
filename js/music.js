@@ -32,6 +32,8 @@ function average(arr)
 //																			  //
 ////////////////////////////////////////////////////////////////////////////////
 
+var ref = 55;
+
 function createScale(baseFreq, interval, numNotes) {
 	var scale = [];
 	scale[0] = baseFreq; 
@@ -48,11 +50,15 @@ function createScale(baseFreq, interval, numNotes) {
 
 // instantiate the music class with a base reference frequency 
 var Music = function(_baseFreq) {
-	var baseFreq = _baseFreq;
+	this.baseFreq = this.defaultArg(_baseFreq, ref);
 
 	this.interval = [2, 2, 1, 2, 2, 2, 1];
 
-	this.scale = createScale(baseFreq, this.interval, this.interval.length);
+	this.currentScale = "major";
+
+	this.currentMode = "ionian";
+
+	this.scale = createScale(this.baseFreq, this.interval, this.interval.length);
 }
 
 Music.prototype.snapToNote = function(valueToBeTransformed) {
@@ -86,25 +92,80 @@ Music.extend = function(child, parent){
 	child.prototype.constructor = child;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//																			  //
-//							TRANSFORMING THE BASE CLASS						  //
-//																			  //
-////////////////////////////////////////////////////////////////////////////////
-
-Music.Transform = function (_baseFreq, transformObject) {
-	Music.call(this);
-
-	var baseFreq = _baseFreq;
-
-	for (var i = transformObject.length - 1; i >= 0; i--) {
-		this.interval[i] += transformObject[i];
-	};
-
-	this.scale = createScale(baseFreq, this.interval, this.interval.length);
+//if the given argument is undefined, go with the default
+//@param {*} given
+//@param {*} fallback
+//@returns {*}
+Music.prototype.defaultArg = function(given, fallback){
+	return isUndef(given) ? fallback : given;
 }
 
-Music.extend(Music.Transform);
+////////////////////////////////////////////////////////////////////////////////
+//																			  //
+//							TRANSFORMING THE MUSIC CLASS					  //
+//																			  //
+////////////////////////////////////////////////////////////////////////////////
+
+Music.prototype.setKey = function(key) {
+	this.baseFreq = key;
+	this.scale = createScale(key, this.interval, this.interval.length);
+}
+
+Music.prototype.setSeptScale = function(scaleInterval, id){
+	// reset the scale to Major
+	this.scale = createScale(this.baseFreq, this.interval, this.interval.length);
+
+	this.currentScale = id;
+
+	var newSeptatonicScale = [];
+	
+	for (var i = 0; i < (scaleInterval.length)*4-3; i++){
+		newSeptatonicScale[i] = this.scale[i] * twelthRootOf(scaleInterval[i]);
+		if(i>7) newSeptatonicScale[i] = this.scale[i] * twelthRootOf(scaleInterval[i-7]);
+		if(i>14) newSeptatonicScale[i] = this.scale[i] * twelthRootOf(scaleInterval[i-14]);
+		if(i>21) newSeptatonicScale[i] = this.scale[i] * twelthRootOf(scaleInterval[i-21]);
+		if(i>28) newSeptatonicScale[i] = this.scale[i] * twelthRootOf(scaleInterval[i-28]);
+		}
+	this.scale = newSeptatonicScale;
+	console.log(this.currentScale);
+	console.log(this.currentMode);
+	console.log(this.scale);
+}
+
+Music.prototype.setPentScale = function(scaleInterval){
+	var newScale = [];
+
+	// reset the scale to Major
+	this.scale = createScale(this.baseFreq, this.interval, scaleInterval.length)
+
+	for (var i = 0; i < scaleInterval.length; i++){
+		if(scaleInterval[i] != 0) {
+			newScale[i] = this.scale[i] * twelthRootOf(scaleInterval[i]);
+		}
+	}
+}
+
+Music.prototype.setMode = function(mode, id){
+	// reset the scale to the current id
+	this.setSeptScale(scales[this.currentScale], this.currentScale);
+
+	this.currentMode = id;
+
+	var newMode = [];
+
+	for (var i = 0; i < (mode.length)*4-3; i++){
+		newMode[i] = this.scale[i] * twelthRootOf(mode[i]);
+		if(i>7) newMode[i] = this.scale[i] * twelthRootOf(mode[i-7]);
+		if(i>14) newMode[i] = this.scale[i] * twelthRootOf(mode[i-14]);
+		if(i>21) newMode[i] = this.scale[i] * twelthRootOf(mode[i-21]);
+		if(i>28) newMode[i] = this.scale[i] * twelthRootOf(mode[i-28]);
+	}
+
+	this.scale = newMode;
+	console.log(this.currentScale);	
+	console.log(this.currentMode);
+	console.log(this.scale);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //																			  //
@@ -113,19 +174,21 @@ Music.extend(Music.Transform);
 ////////////////////////////////////////////////////////////////////////////////
 
 var modes = {
-	dorian: [0, -1, 0, 0, 0, -1, 0],
-	phrygian: [-1, -1, 0, 0, -1, -1, 0],
-	lydian: [0, 0, 1, 0, 0, 0, 0],
-	mixolydian: [0, 0, 0, 0, 0, -1, 0],
-	aeolian: [0, -1, 0, -1, 0, -1, 0],
-	locrian: [-1, -1, 0, -1, -1, -1, 0],
+	ionian: [0, 0, 0, 0, 0, 0, 0, 0],
+	dorian: [0, 0, 1, 0, 0, 0, -1, 0],
+	phrygian: [0, -1, -1, 0, 0, -1, -1, 0],
+	lydian: [0, 0, 0, 1, 0, 0, 0, 0],
+	mixolydian: [0, 0, 0, 0, 0, 0, -1, 0],
+	aeolian: [0, 0, -1, 0, 0, -1, -1, 0],
+	locrian: [0, -1, -1, 0, -1, -1, -1, 0],
 };
 
 var scales = {
-	naturalMinor: [0, -1, 0, -1, 0, -1, 0],
-	harmonicMinor: [0, -1, 0, 0, -1, 0, 0],
-	melodicMinor: [0, -1, 0, 0, 0, 0, 0],
-}
+	major: [0, 0, 0, 0, 0, 0, 0, 0],
+	naturalMinor: [0, 0, -1, 0, 0, -1, -1, 0],
+	harmonicMinor: [0, 0, -1, 0, 0, -1, 0, 0],
+	melodicMinor: [0, 0, -1, 0, 0, 0, 0, 0],
+};
 
 var baseNotes = {
 	G: 97.9989,
