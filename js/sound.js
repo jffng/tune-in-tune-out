@@ -38,7 +38,7 @@ function updateAudio() {
 	}
 	
 	for (var i=0; i<objC.length; i++) {
-		oscVol[i].gain.value = mapRange( [0, 256], [0, .05], objects[i].position.y);
+		oscVol[i].gain.value = mapRange( [0, 256], [0, .05], frequencyData[i]);
 		oscillators[i].setFrequency(music.snapToNote(objC[i]), 1);
 	}
 }
