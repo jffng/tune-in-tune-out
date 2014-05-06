@@ -7,19 +7,23 @@ function initInterface() {
 		$("#"+n).click(function(eventData) {
 			thisKey = eventData.currentTarget.id;
 			ref = baseNotes[thisKey];
-			music.setKey(ref)
-			console.log(thisKey);
+			music.setKey(baseNotes[thisKey], thisKey)
+			// console.log(thisKey);
+			$("#info").html(music.currentKey + ' ' + music.currentScale + ' ' + music.currentMode);
+			console.log(music.currentKey);
+			console.log(music.currentScale);
+			console.log(music.currentMode);
 		});
 	}
 
 	// scale dropdown
 	for(var s in scales) {
-		console.log(s);
 		$("#scale").append('<li id="'+ s +'"><a href="#">'+ s +'</a></li>');
 		$("#"+s).click(function(eventData) {
 			thisScale = eventData.currentTarget.id;
 			music.setSeptScale(scales[thisScale], thisScale);
 			console.log(thisScale);
+			$("#info").html(music.currentKey + ' ' + music.currentScale + ' ' + music.currentMode);						
 		});	
 	}
 
@@ -28,7 +32,10 @@ function initInterface() {
 		$("#mode").append('<li id="'+ m +'"><a href="#">'+ m +'</a></li>')
 		$("#"+m).click(function(eventData) {
 			thisMode = eventData.currentTarget.id;
-			if(modes[thisMode].length === scales[thisScale].length) music.setMode(modes[thisMode], thisMode);
+			if(modes[thisMode].length === scales[thisScale].length) {
+				music.setMode(modes[thisMode], thisMode);
+				$("#info").html(music.currentKey + ' ' + music.currentScale + ' ' + music.currentMode);
+			}
 			else{
 				alert("No such musical transformation!")
 			}

@@ -5,5 +5,15 @@ canvas{
 }
 
 body{
-	margin: 0;
+	font-family: Monospace;
+	color: #000000;
+	background-color: #000000;
+	margin: 0px;
+	overflow: hidden;
+}
+
+#info{
+	font-size: 64px;
+	display: block;
+	position: absolute;
 }

@@ -56,6 +56,8 @@ var Music = function(_baseFreq) {
 
 	this.currentScale = "major";
 
+	this.currentKey = "A";
+
 	this.currentMode = "ionian";
 
 	this.scale = createScale(this.baseFreq, this.interval, this.interval.length);
@@ -106,8 +108,9 @@ Music.prototype.defaultArg = function(given, fallback){
 //																			  //
 ////////////////////////////////////////////////////////////////////////////////
 
-Music.prototype.setKey = function(key) {
+Music.prototype.setKey = function(key, id) {
 	this.baseFreq = key;
+	this.currentKey = id;
 	this.scale = createScale(key, this.interval, this.interval.length);
 }
 

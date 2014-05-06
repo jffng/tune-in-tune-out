@@ -15,8 +15,10 @@ var objectsC = [], materialsC = [];
 
 function initVisuals(){
 	//THREE.JS
-	container = document.createElement('div');
-	document.body.appendChild(container);
+	$('body').append('<div id="container"></div>');
+	$('#container').append('<div id="info" style="font-size: 14px; font-weight: bold; font-style: italic; display: block; position: absolute; margin-top: 75px; margin-left: 40px;">' 
+		+ music.currentKey + ' ' + music.currentScale + ' ' + music.currentMode +
+		'</div>');
 
 	//scene
 	scene = new THREE.Scene();
@@ -41,7 +43,7 @@ function initVisuals(){
 	renderer = new THREE.WebGLRenderer( {antialias: true} );
 	renderer.setClearColor(scene.fog.color, 1);
 	renderer.setSize(width, height);
-	container.appendChild(renderer.domElement);
+	$('#container').append(renderer.domElement);
 
 	//controls
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
@@ -86,7 +88,6 @@ function initVisuals(){
 function update(){
 	controls.update();
 	var count = 0;
-	updateAudio();
 	for(var i=0; i<objects.length; i++){
 		if(frequencyData[i]>250){
 			objects[i].material.color.setHex(0xffff00);
@@ -123,25 +124,4 @@ function onWindowResize() {
 
 function render(){
 	renderer.render(scene, camera);
-}
-
-var framesToSkip = 8, counter = 0;
-
-// function animate(){
-// 	update();
-// 	render();
-// 	requestAnimationFrame(animate);
-// }
-
-function animate(){
-	if(counter<framesToSkip){
-		counter++;
-		requestAnimationFrame(animate);
-		return;
-	}
-	update();
-	render();
-
-	counter = 0;
-	requestAnimationFrame(animate);
 }

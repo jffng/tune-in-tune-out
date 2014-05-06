@@ -1,12 +1,6 @@
 var tone = new Tone();
 var mic = new Tone.Microphone();
 
-// CREATE FILTER
-// var filter = Tone.context.createBiquadFilter();
-// filter.type = 0;
-// filter.frequency.value = 30;
-
-
 // CREATE ANALYSER
 var fft = Tone.context.createAnalyser();
 fft.fftSize = 2048;
