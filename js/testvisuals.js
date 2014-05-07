@@ -9,6 +9,8 @@ var cubes = [];
 var materials = [];
 var mouse = new THREE.Vector2();
 
+var triGeo, triMat, tris=[];
+
 //angles of rotation
 var s = [];
 var t = [];
@@ -65,9 +67,24 @@ function initVisuals(){
 		materials.push(cubeMaterial);
 	}
 
+	//tetrahedronGeometry
+	triGeometry = new THREE.TetrahedronGeometry(10);
+	for(var i=0; i<10; i++){
+		s[i] = Math.random()*2*Math.PI;
+		t[i] = Math.random()*2*Math.PI;
+		var cubeMaterial = new THREE.MeshLambertMaterial({color: 0x35d8c0});
+		var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+		scene.add(cube);
+		cubes.push(cube);
+		materials.push(cubeMaterial);
+	}
+
     window.addEventListener( 'resize', onWindowResize, false );
 }
 
+function createTri(){
+
+}
 
 function update(){
 	controls.update();
