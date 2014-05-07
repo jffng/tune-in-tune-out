@@ -88,17 +88,20 @@ function createTri(){
 
 function update(){
 	controls.update();
-	fftVisuals.getByteFrequencyData(frequencyDataVisuals);
+	// fftVisuals.getByteFrequencyData(frequencyDataVisuals);
 
 	for(var i=0; i<cubes.length; i++){
 		// set angle multipliers
 		var xAngle = Math.cos(s[i]) * Math.sin(t[i]);
 		var yAngle = Math.sin(s[i]) * Math.sin(t[i]);
 		var zAngle = Math.cos(t[i]);
-		var x = 2*frequencyDataVisuals[i] * xAngle;
-		var y = 2*frequencyDataVisuals[i] * yAngle;
-		var z = 2*frequencyDataVisuals[i] * zAngle;
+		var x = 2*frequencyData[i] * xAngle;
+		var y = 2*frequencyData[i] * yAngle;
+		var z = 2*frequencyData[i] * zAngle;
 		cubes[i].position.set(x, y, z);
+		// cubes[i].position.x--;
+		// cubes[i].position.y--;
+		// cubes[i].position.z--;
 		// cubes[i].material.color.setRGB(256/frequencyData[i],25/frequencyData[i],25/frequencyData[i]);
 	}
 }
@@ -110,6 +113,19 @@ function onWindowResize() {
 	renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
+var framesToSkip = 4, counter = 0;
+
 function render(){
+	update();
+
+	//DELAY_UPDATE_AUDIO	
+	if(counter<framesToSkip){
+		counter++;
+		return;
+	} else {
+		updateAudio();
+		counter = 0;
+	}
+
 	renderer.render(scene, camera);
 }

@@ -27,7 +27,7 @@ function updateAudio() {
 	fft.getByteFrequencyData(frequencyData);
 	
 	for (var i=0; i<numOsc; i++) {
-		oscVol[i].gain.value = mapRange( [0, 256], [0, .05], frequencyData[i]);
+		oscVol[i].gain.value = mapRange([0, 256], [0, .05], frequencyData[i]);
 		oscillators[i].setFrequency(music.snapToNote(frequencyData[i]), 1);
 	}
 }
@@ -50,7 +50,7 @@ function initAudio () {
 	}
 
 	mic.connect(fft);
-	mic.connect(fftVisuals);
+	// mic.connect(fftVisuals);
 	mic.start();
 
 	tone.input.connect(tone.output);

@@ -5,29 +5,11 @@ $(document).ready(function() {
 	animate();		
 });
 
-var framesToSkip = 1, counter = 0;
 
 function animate(){
 	requestAnimationFrame(animate);
-	update();
 	render();
-
-	//DELAY_UPDATE_AUDIO	
-	if(counter<framesToSkip){
-		counter++;
-		return;
-	} else {
-		updateAudio();
-		counter = 0;
-	}
 }
-
-// function animate(){
-// 	update();
-// 	updateAudio();
-// 	render();
-// 	requestAnimationFrame(animate);
-// }
 
 // function animate(){
 // 	update();
@@ -48,6 +30,6 @@ function animate(){
 // 	update();
 // 	render();
 // 	updateAudio();
-// 	counter = 0;
 // 	requestAnimationFrame(animate);
+// 	counter = 0;
 // }
