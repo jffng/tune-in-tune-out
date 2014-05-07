@@ -5,14 +5,30 @@ $(document).ready(function() {
 	animate();		
 });
 
-var framesToSkip = 8, counter = 0;
+var framesToSkip = 1, counter = 0;
 
 function animate(){
-	update();
-	updateAudio();
-	render();
 	requestAnimationFrame(animate);
+	update();
+	render();
+
+	//DELAY_UPDATE_AUDIO	
+	if(counter<framesToSkip){
+		counter++;
+		return;
+	} else {
+		updateAudio();
+		counter = 0;
+	}
 }
+
+
+// function animate(){
+// 	update();
+// 	updateAudio();
+// 	render();
+// 	requestAnimationFrame(animate);
+// }
 
 // function animate(){
 // 	if(counter<framesToSkip){
