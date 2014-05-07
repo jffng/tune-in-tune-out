@@ -19,10 +19,27 @@ var t = [];
 var cubesB = [], materialsB = [];
 var cubesC = [], materialsC = [];
 
+
+var framesToSkip = 4; 
+var counter = 0;
+
+var framesToSkips = {
+	1: "1",
+	2: "2",
+	3: "3",
+	4: "4",
+	5: "5",
+	6: "6",
+	7: "7",
+	8: "8",
+	9: "9",
+	10: "10"
+}
+
 function initVisuals(){
 	//THREE.JS
 	$('body').append('<div id="container"></div>');
-	$('#container').append('<div id="info" style="font-size: 14px; font-style: italic; display: block; position: absolute; margin-top: 100px; margin-left: 40px;"><p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + oscType+'</p></div>');
+	$('#container').append('<div id="info" style="font-size: 14px; font-style: italic; display: block; position: absolute; margin-top: 100px; margin-left: 40px;"><p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + oscType+'</p><p>Speed: ' + framesToSkip+'</p></div>');
 
 	//scene
 	scene = new THREE.Scene();
@@ -111,7 +128,11 @@ function onWindowResize() {
 	renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-var framesToSkip = 4, counter = 0;
+function changeSpeed (_speed) {
+	framesToSkip = framesToSkips[_speed];
+}
+
+
 
 function render(){
 	update();

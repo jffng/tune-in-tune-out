@@ -9,7 +9,7 @@ function initInterface() {
 			ref = baseNotes[thisKey];
 			music.setKey(baseNotes[thisKey], thisKey)
 			// console.log(thisKey);
-			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p>');
+			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p><p>Speed: ' + currentSpeed+'</p>');
 		});
 	}
 
@@ -20,7 +20,7 @@ function initInterface() {
 			thisScale = eventData.currentTarget.id;
 			music.setSeptScale(scales[thisScale], thisScale);
 			// console.log(thisScale);
-			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p>');
+			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p><p>Speed: ' + currentSpeed+'</p>');
 		});	
 	}
 
@@ -31,7 +31,7 @@ function initInterface() {
 			thisMode = eventData.currentTarget.id;
 			if(modes[thisMode].length === scales[thisScale].length) {
 				music.setMode(modes[thisMode], thisMode);
-				$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p>');
+				$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p><p>Speed: ' + currentSpeed+'</p>');
 			}
 			else{
 				alert("No such musical transformation!")
@@ -46,7 +46,18 @@ function initInterface() {
 		$("#"+s).click(function(eventData) {
 			currentWaveform = eventData.currentTarget.id;
 			changeOscillator(currentWaveform);
-			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p>');
+			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p><p>Speed: ' + currentSpeed+'</p>');
+			// console.log(thisSound);
+		});		
+	}
+
+	// speed dropdown
+	for(var s in framesToSkips) {
+		$("#speed").append('<li id="'+ s +'"><a href="#">'+ s +'</a></li>')
+		$("#"+s).click(function(eventData) {
+			currentSpeed = eventData.currentTarget.id;
+			changeSpeed(currentSpeed);
+			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p><p>Speed: ' + currentSpeed+'</p>');
 			// console.log(thisSound);
 		});		
 	}
