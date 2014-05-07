@@ -130,9 +130,6 @@ Music.prototype.setSeptScale = function(scaleInterval, id){
 		if(i>28) newSeptatonicScale[i] = this.scale[i] * twelthRootOf(scaleInterval[i-28]);
 		}
 	this.scale = newSeptatonicScale;
-	console.log(this.currentScale);
-	console.log(this.currentMode);
-	console.log(this.scale);
 }
 
 Music.prototype.setPentScale = function(scaleInterval){
@@ -165,9 +162,6 @@ Music.prototype.setMode = function(mode, id){
 	}
 
 	this.scale = newMode;
-	console.log(this.currentScale);	
-	console.log(this.currentMode);
-	console.log(this.scale);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

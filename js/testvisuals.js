@@ -22,9 +22,7 @@ var cubesC = [], materialsC = [];
 function initVisuals(){
 	//THREE.JS
 	$('body').append('<div id="container"></div>');
-	$('#container').append('<div id="info" style="font-size: 14px; font-weight: bold; font-style: italic; display: block; position: absolute; margin-top: 75px; margin-left: 40px;">' 
-		+ music.currentKey + ' ' + music.currentScale + ' ' + music.currentMode +
-		'</div>');
+	$('#container').append('<div id="info" style="font-size: 14px; font-style: italic; display: block; position: absolute; margin-top: 100px; margin-left: 40px;"><p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + oscType+'</p></div>');
 
 	//scene
 	scene = new THREE.Scene();

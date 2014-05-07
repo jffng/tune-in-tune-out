@@ -22,6 +22,7 @@ var oscType = "square";
 var music = new Music(ref);
 
 var objB = [], objC = [];
+var currentWaveform = oscType;
 
 function updateAudio() {
 	fft.getByteFrequencyData(frequencyData);
@@ -34,9 +35,10 @@ function updateAudio() {
 
 function changeOscillator (_oscType) {
 	for(var i = 0; i < numOsc; i++){
-		console.log(sounds[_oscType]);
-		oscillators[i].oscillator.type = sounds[_oscType];
+		console.log(waveforms[_oscType]);
+		oscillators[i].oscillator.type = waveforms[_oscType];
 	}
+	currentWaveform = _oscType;
 }
 
 function initAudio () {
@@ -66,9 +68,9 @@ function initAudio () {
 	}
 }
 
-var sounds = {
-	sine: 0,
-	square: 1,
-	sawtooth: 2,
-	triangle: 3
+var waveforms = {
+	sine: "sine",
+	square: "square",
+	sawtooth: "sawtooth",
+	triangle: "triangle"
 }

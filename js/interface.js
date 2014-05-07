@@ -9,10 +9,7 @@ function initInterface() {
 			ref = baseNotes[thisKey];
 			music.setKey(baseNotes[thisKey], thisKey)
 			// console.log(thisKey);
-			$("#info").html(music.currentKey + ' ' + music.currentScale + ' ' + music.currentMode);
-			console.log(music.currentKey);
-			console.log(music.currentScale);
-			console.log(music.currentMode);
+			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p>');
 		});
 	}
 
@@ -22,8 +19,8 @@ function initInterface() {
 		$("#"+s).click(function(eventData) {
 			thisScale = eventData.currentTarget.id;
 			music.setSeptScale(scales[thisScale], thisScale);
-			console.log(thisScale);
-			$("#info").html(music.currentKey + ' ' + music.currentScale + ' ' + music.currentMode);						
+			// console.log(thisScale);
+			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p>');
 		});	
 	}
 
@@ -34,22 +31,23 @@ function initInterface() {
 			thisMode = eventData.currentTarget.id;
 			if(modes[thisMode].length === scales[thisScale].length) {
 				music.setMode(modes[thisMode], thisMode);
-				$("#info").html(music.currentKey + ' ' + music.currentScale + ' ' + music.currentMode);
+				$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p>');
 			}
 			else{
 				alert("No such musical transformation!")
 			}
-			console.log(thisMode);
+			// console.log(thisMode);
 		});		
 	}
 
 	// sound dropdown
-	for(var s in sounds) {
+	for(var s in waveforms) {
 		$("#sound").append('<li id="'+ s +'"><a href="#">'+ s +'</a></li>')
 		$("#"+s).click(function(eventData) {
-			thisSound = eventData.currentTarget.id;
-			changeOscillator(thisSound);
-			console.log(thisSound);
+			currentWaveform = eventData.currentTarget.id;
+			changeOscillator(currentWaveform);
+			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p>');
+			// console.log(thisSound);
 		});		
 	}
 }
