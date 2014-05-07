@@ -71,42 +71,19 @@ function initVisuals(){
 
 function update(){
 	controls.update();
+	fftVisuals.getByteFrequencyData(frequencyDataVisuals);
 
 	for(var i=0; i<cubes.length; i++){
 		// set angle multipliers
 		var xAngle = Math.cos(s[i]) * Math.sin(t[i]);
 		var yAngle = Math.sin(s[i]) * Math.sin(t[i]);
 		var zAngle = Math.cos(t[i]);
-		var x = 2*frequencyData[i] * xAngle;
-		var y = 2*frequencyData[i] * yAngle;
-		var z = 2*frequencyData[i] * zAngle;
+		var x = 2*frequencyDataVisuals[i] * xAngle;
+		var y = 2*frequencyDataVisuals[i] * yAngle;
+		var z = 2*frequencyDataVisuals[i] * zAngle;
 		cubes[i].position.set(x, y, z);
 		// cubes[i].material.color.setRGB(256/frequencyData[i],25/frequencyData[i],25/frequencyData[i]);
 	}
-
-	// 		if(frequencyData[i]>250){
-	// 		cubes[i].material.color.setHex(0xffff00);
-	// 		count ++;
-	// 		cubesB[i].material.color.setHex(0xffff00);
-	// 		cubesB[i].position.y = frequencyData[i];
-	// 		cubesC[count].position.y = frequencyData[count];
-
-	// 	} else if(frequencyData[i]>100){
-	// 		cubes[i].material.color.setHex(0xff0000);
-	// 		cubesB[i].material.color.setHex(0xf084e9);
-	// 	} else {
-	// 		cubes[i].material.color.setHex(0x35d8c0);
-
-	// 		if (cubesB[i].position.y>0)
-	// 			cubesB[i].position.y--;
-	// 		cubesB[i].material.color.setHex(0x00ffff);
-	// 	}
-	// 	cubes[i].position.y = frequencyData[i];
-
-	// for(var i=0; i<cubesC.length; i++){
-	// 	if (cubesC[i].position.y>0)
-	// 		cubesC[i].position.y --;		
-	// }
 }
 
 function onWindowResize() {

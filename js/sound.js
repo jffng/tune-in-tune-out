@@ -7,6 +7,11 @@ fft.fftSize = 2048;
 var samples = 64;
 var frequencyData = new Uint8Array(samples);
 
+// REAL TIME ANALYSER
+var fftVisuals = Tone.context.createAnalyser();
+fftVisuals.fftSize = 2048;
+var frequencyDataVisuals = new Uint8Array(samples);
+
 // CREATE OSCILLATORS
 var oscillators = {};
 var oscVol = {};
@@ -21,30 +26,14 @@ var objB = [], objC = [];
 function updateAudio() {
 	fft.getByteFrequencyData(frequencyData);
 	
-	var count = 0;
-	for(var i=0; i<samples; i++){
-		if(frequencyData[i]>100){
-			objB[i]=(frequencyData[i]);
-			objC[count]=(frequencyData[i]);
-			count ++;
-
-		} else {
-			if (objB[i]>0) objB[i] --;
-		}
-	}
-
-	for(var i=0; i<objC.length; i++){
-		if (objC[i]>0) objC[i] --;		
-	}
-	
-	for (var i=0; i<objC.length; i++) {
+	for (var i=0; i<numOsc; i++) {
 		oscVol[i].gain.value = mapRange( [0, 256], [0, .05], frequencyData[i]);
-		oscillators[i].setFrequency(music.snapToNote(objC[i]), 1);
+		oscillators[i].setFrequency(music.snapToNote(frequencyData[i]), 1);
 	}
 }
 
 function changeOscillator (_oscType) {
-	for(var i = 0; i < objC.length; i++){
+	for(var i = 0; i < numOsc; i++){
 		console.log(sounds[_oscType]);
 		oscillators[i].oscillator.type = sounds[_oscType];
 	}
@@ -61,6 +50,7 @@ function initAudio () {
 	}
 
 	mic.connect(fft);
+	mic.connect(fftVisuals);
 	mic.start();
 
 	tone.input.connect(tone.output);

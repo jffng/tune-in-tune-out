@@ -5,25 +5,27 @@ $(document).ready(function() {
 	animate();		
 });
 
-var framesToSkip = 8, counter = 0;
-
-function animate(){
-	update();
-	updateAudio();
-	render();
-	requestAnimationFrame(animate);
-}
+var framesToSkip = 10, counter = 0;
 
 // function animate(){
-// 	if(counter<framesToSkip){
-// 		counter++;
-// 		requestAnimationFrame(animate);
-// 		return;
-// 	}
 // 	update();
 // 	updateAudio();
 // 	render();
-
-// 	counter = 0;
 // 	requestAnimationFrame(animate);
 // }
+
+function animate(){
+	if(counter<framesToSkip){
+		counter++;
+		update();
+		render();			
+		requestAnimationFrame(animate);
+		return;
+	}
+
+	update();
+	render();
+	updateAudio();
+	counter = 0;
+	requestAnimationFrame(animate);
+}
