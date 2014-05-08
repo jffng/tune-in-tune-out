@@ -6,8 +6,12 @@ var renderer, scene, camera, controls, stats, light;
 var clock = new THREE.Clock();
 
 var cubes = [];
+var lineGeometry = [];
 var materials = [];
 var mouse = new THREE.Vector2();
+var xAngle = [];
+var yAngle = [];
+var zAngle = [];
 
 var triGeo, triMat, tris=[];
 
@@ -69,29 +73,26 @@ function initVisuals(){
 	//controls
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-	//cube
+	//cube geometry
 	var cubeGeometry = new THREE.CubeGeometry(20,20,20);
-	
+	var lineMaterial = new THREE.LineBasicMaterial({
+        color: 0xffffff
+    });
+
 	for(var i=0; i<samples; i++){
 		s[i] = Math.random()*2*Math.PI;
 		t[i] = Math.random()*2*Math.PI;
+		xAngle[i] = Math.cos(s[i]) * Math.sin(t[i]);
+		yAngle[i] = Math.sin(s[i]) * Math.sin(t[i]);
+		zAngle[i] = Math.cos(t[i]);
 		var cubeMaterial = new THREE.MeshLambertMaterial({color: 0x35d8c0});
 		var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 		scene.add(cube);
 		cubes.push(cube);
 		materials.push(cubeMaterial);
-	}
-
-	//tetrahedronGeometry
-	triGeometry = new THREE.TetrahedronGeometry(10);
-	for(var i=0; i<10; i++){
-		s[i] = Math.random()*2*Math.PI;
-		t[i] = Math.random()*2*Math.PI;
-		var cubeMaterial = new THREE.MeshLambertMaterial({color: 0x35d8c0});
-		var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-		scene.add(cube);
-		cubes.push(cube);
-		materials.push(cubeMaterial);
+		lineGeometry[i] = new THREE.Geometry();
+		var line = new THREE.Line(lineGeometry[i], lineMaterial);
+		scene.add(line);
 	}
 
     window.addEventListener( 'resize', onWindowResize, false );
@@ -106,17 +107,13 @@ function update(){
 	// fftVisuals.getByteFrequencyData(frequencyDataVisuals);
 
 	for(var i=0; i<cubes.length; i++){
-		// set angle multipliers
-		var xAngle = Math.cos(s[i]) * Math.sin(t[i]);
-		var yAngle = Math.sin(s[i]) * Math.sin(t[i]);
-		var zAngle = Math.cos(t[i]);
-		var x = 2*frequencyData[i] * xAngle;
-		var y = 2*frequencyData[i] * yAngle;
-		var z = 2*frequencyData[i] * zAngle;
+		var x = 2*frequencyData[i] * xAngle[i];
+		var y = 2*frequencyData[i] * yAngle[i];
+		var z = 2*frequencyData[i] * zAngle[i];
 		cubes[i].position.set(x, y, z);
-		// cubes[i].position.x--;
-		// cubes[i].position.y--;
-		// cubes[i].position.z--;
+		lineGeometry[i].verticesNeedUpdate = true;
+		lineGeometry[i].vertices[0] = new THREE.Vector3(0, 0, 0);
+		lineGeometry[i].vertices[1] = new THREE.Vector3(x, y, z);
 		// cubes[i].material.color.setRGB(256/frequencyData[i],25/frequencyData[i],25/frequencyData[i]);
 	}
 }
