@@ -18,7 +18,8 @@ var xAngle = [];
 var yAngle = [];
 var zAngle = [];
 var vertices = [];
-	var geometry = [];
+var verticesTest = [];
+var geometry = [];
 
 var triGeo, triMat, tris=[];
 
@@ -45,6 +46,51 @@ var framesToSkips = {
 	9: "9",
 	10: "10"
 };
+
+function euclideanBubbleSort(arrayOfVertices) {
+	var distances = [];
+
+	for(var i = 0; i < arrayOfVertices.length - 1; i++){
+		distances[i] = Math.sqrt(
+		Math.pow((arrayOfVertices[i].x - arrayOfVertices[i+1].x), 2) + 
+		Math.pow((arrayOfVertices[i].y - arrayOfVertices[i+1].y), 2) +
+		Math.pow((arrayOfVertices[i].z - arrayOfVertices[i+1].z), 2) );			
+	}
+
+	var swapped;
+	do{
+		swapped = false;
+		for(i = 0; i < arrayOfVertices.length - 1; i++){
+			if(distances[i] > distances[i + 1]) {
+				var temp = arrayOfVertices[i];
+				arrayOfVertices[i] = arrayOfVertices[i + 1];
+				arrayOfVertices[i + 1] = temp;
+				var tempDistance = distances[i];
+				distances[i] = distances[i+1];
+				distances[i + 1] = tempDistance;
+				swapped = true;
+			}
+		}
+	} while (swapped);
+}
+
+// sort array 'a' by 'parameter'
+// function bubbleSort(a, parameter)
+// {
+//     var swapped;
+//     do {
+//         swapped = false;
+//         for (var i = 0; i < a.length - 1; i++) {
+//             if (a[i][par] > a[i + 1][par]) {
+//                 var temp = a[i];
+//                 a[i] = a[i + 1];
+//                 a[i + 1] = temp;
+//                 swapped = true;
+//             }
+//         }
+//     } while (swapped);
+// }
+
 
 function initVisuals(){
 	//THREE.JS
@@ -105,7 +151,7 @@ function initVisuals(){
 		lineGeometry[i] = new THREE.Geometry();
 		var line = new THREE.Line(lineGeometry[i], lineMaterial);
 		scene.add(line);	
-		vertices[i] = new THREE.Vector3(xAngle[i]*100,yAngle[i]*100,zAngle[i]*100);
+		vertices[i] = new THREE.Vector3(xAngle[i]*2,yAngle[i]*2,zAngle[i]*2);
 	}
 
 	for(i=0; i<samples/3-1; i++){
@@ -116,7 +162,6 @@ function initVisuals(){
 		geometry[i].faces.push(new THREE.Face3(0,1,2));
 		geometry[i].computeFaceNormals();
 		var mesh = new THREE.Mesh(geometry[i], new THREE.MeshNormalMaterial());
-		console.log(mesh);
 		scene.add(mesh);
 	}
     window.addEventListener( 'resize', onWindowResize, false );
@@ -126,14 +171,15 @@ function update(){
 	controls.update();
 
 	for(var i = 0; i<samples; i++){
-		var x = 2*frequencyData[i]*xAngle[i];
-		var y = 2*frequencyData[i]*yAngle[i];
-		var z = 2*frequencyData[i]*zAngle[i];
+		var x = 20*frequencyData[i]*xAngle[i];
+		var y = 20*frequencyData[i]*yAngle[i];
+		var z = 20*frequencyData[i]*zAngle[i];
 		// cubes[i].position.set(x, y, z);
 		// lineGeometry[i].verticesNeedUpdate = true;
 		// lineGeometry[i].vertices[0] = new THREE.Vector3(0, 0, 0);
 		// lineGeometry[i].vertices[1] = new THREE.Vector3(x, y, z);		
 		vertices[i] = new THREE.Vector3(x,y,z);
+		euclideanBubbleSort(vertices);
 	}
 
 	for(i = 0; i<geometry.length;i++){
