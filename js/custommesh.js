@@ -87,7 +87,6 @@ function initVisuals(){
 	var tetGeometry = new THREE.TetrahedronGeometry(10,0);
 	var circleGeometry = new THREE.CircleGeometry(10,16);
 
-
 	for(var i=0; i<samples; i++){
 		s[i] = Math.random()*2*Math.PI;
 		t[i] = Math.random()*2*Math.PI;
@@ -95,27 +94,27 @@ function initVisuals(){
 		yAngle[i] = Math.sin(s[i]) * Math.sin(t[i]);
 		zAngle[i] = Math.cos(t[i]);
 
-		// var cubeMaterial = new THREE.MeshLambertMaterial({color: 0x35d8c0});
+		var cubeMaterial = new THREE.MeshLambertMaterial({color: 0x35d8c0});
 
-		// var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+		var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-		// scene.add(cube);
-		// cubes.push(cube);
-		// materials.push(cubeMaterial);
+		scene.add(cube);
+		cubes.push(cube);
+		materials.push(cubeMaterial);
 
-		// lineGeometry[i] = new THREE.Geometry();
-		// var line = new THREE.Line(lineGeometry[i], lineMaterial);
-		// scene.add(line);	
-		vertices[i] = new THREE.Vector3(xAngle[i]*10,yAngle[i]*10,zAngle[i]*10);
+		lineGeometry[i] = new THREE.Geometry();
+		var line = new THREE.Line(lineGeometry[i], lineMaterial);
+		scene.add(line);	
+		vertices[i] = new THREE.Vector3(xAngle[i]*100,yAngle[i]*100,zAngle[i]*100);
 	}
 
-	for(i=0; i<samples/3; i++){
+	for(i=0; i<samples/3-1; i++){
 		geometry[i] = new THREE.Geometry();
 		geometry[i].vertices.push(vertices.shift());	
 		geometry[i].vertices.push(vertices.shift());
 		geometry[i].vertices.push(vertices.shift());
 		geometry[i].faces.push(new THREE.Face3(0,1,2));
-		// geometry[i].computeFaceNormals();
+		geometry[i].computeFaceNormals();
 		var mesh = new THREE.Mesh(geometry[i], new THREE.MeshNormalMaterial());
 		console.log(mesh);
 		scene.add(mesh);
@@ -125,18 +124,31 @@ function initVisuals(){
 
 function update(){
 	controls.update();
+
+	for(var i = 0; i<samples; i++){
+		var x = 2*frequencyData[i]*xAngle[i];
+		var y = 2*frequencyData[i]*yAngle[i];
+		var z = 2*frequencyData[i]*zAngle[i];
+		// cubes[i].position.set(x, y, z);
+		// lineGeometry[i].verticesNeedUpdate = true;
+		// lineGeometry[i].vertices[0] = new THREE.Vector3(0, 0, 0);
+		// lineGeometry[i].vertices[1] = new THREE.Vector3(x, y, z);		
+		vertices[i] = new THREE.Vector3(x,y,z);
+	}
+
+	for(i = 0; i<geometry.length;i++){
+		geometry[i].verticesNeedUpdate = true;
+		// geometry[i].elementsNeedUpdate = true;
+		geometry[i].vertices[0] = vertices.shift();
+		geometry[i].vertices[1] = vertices.shift();
+		geometry[i].vertices[2] = vertices.shift();
+		// console.log(i);
+	}
 	// fftVisuals.getByteFrequencyData(frequencyDataVisuals);
 
 	// for(var i=0; i<cubes.length; i++){
-	// 	var x = 2*frequencyData[i] * xAngle[i];
-	// 	var y = 2*frequencyData[i] * yAngle[i];
-	// 	var z = 2*frequencyData[i] * zAngle[i];
 
-	// 	cubes[i].position.set(x, y, z);
 
-	// 	lineGeometry[i].verticesNeedUpdate = true;
-	// 	lineGeometry[i].vertices[0] = new THREE.Vector3(0, 0, 0);
-	// 	lineGeometry[i].vertices[1] = new THREE.Vector3(x, y, z);
 	// 	// cubes[i].material.color.setRGB(256/frequencyData[i],25/frequencyData[i],25/frequencyData[i]);
 	// }
 }
@@ -164,5 +176,5 @@ function render(){
 		counter = 0;
 	}
 
-	// renderer.render(scene, camera);
+	renderer.render(scene, camera);
 }
