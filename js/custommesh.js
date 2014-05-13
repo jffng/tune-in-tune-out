@@ -13,10 +13,12 @@ var triangles = [];
 var circles = [];
 
 var materials = [];
-var mouse = new THREE.Vector2();
+var mouse = new THREE.Vector2(); 
 var xAngle = [];
 var yAngle = [];
 var zAngle = [];
+var vertices = [];
+	var geometry = [];
 
 var triGeo, triMat, tris=[];
 
@@ -27,7 +29,6 @@ var t = [];
 //FOR_FILTERED_DATA
 var cubesB = [], materialsB = [];
 var cubesC = [], materialsC = [];
-
 
 var framesToSkip = 4; 
 var counter = 0;
@@ -43,7 +44,7 @@ var framesToSkips = {
 	8: "8",
 	9: "9",
 	10: "10"
-}
+};
 
 function initVisuals(){
 	//THREE.JS
@@ -86,7 +87,6 @@ function initVisuals(){
 	var tetGeometry = new THREE.TetrahedronGeometry(10,0);
 	var circleGeometry = new THREE.CircleGeometry(10,16);
 
-	var geometry = [];
 
 	for(var i=0; i<samples; i++){
 		s[i] = Math.random()*2*Math.PI;
@@ -105,21 +105,23 @@ function initVisuals(){
 
 		// lineGeometry[i] = new THREE.Geometry();
 		// var line = new THREE.Line(lineGeometry[i], lineMaterial);
-		// scene.add(line);
-
-		geometry[i] = new THREE.Geometry();
-		geometry[i].vertices.push(new THREE.Vector3(xAngle[i]*10,yAngle[i]*10,zAngle[i]*10));
-		if(i%3 === 0 && i>0){
-			geometry[i].faces.push(new THREE.Face3(i,i-1,i-2));
-			// geometry.computeFaceNormals();
-			var mesh = new THREE.Mesh(geometry[i], new THREE.MeshNormalMaterial());
-			console.log(mesh);
-			scene.add(mesh);
-		}
+		// scene.add(line);	
+		vertices[i] = new THREE.Vector3(xAngle[i]*10,yAngle[i]*10,zAngle[i]*10);
 	}
 
+	for(i=0; i<samples/3; i++){
+		geometry[i] = new THREE.Geometry();
+		geometry[i].vertices.push(vertices.shift());	
+		geometry[i].vertices.push(vertices.shift());
+		geometry[i].vertices.push(vertices.shift());
+		geometry[i].faces.push(new THREE.Face3(0,1,2));
+		// geometry[i].computeFaceNormals();
+		var mesh = new THREE.Mesh(geometry[i], new THREE.MeshNormalMaterial());
+		console.log(mesh);
+		scene.add(mesh);
+	}
     window.addEventListener( 'resize', onWindowResize, false );
-}
+}	
 
 function update(){
 	controls.update();
@@ -162,5 +164,5 @@ function render(){
 		counter = 0;
 	}
 
-	renderer.render(scene, camera);
+	// renderer.render(scene, camera);
 }
