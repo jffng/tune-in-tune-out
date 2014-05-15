@@ -16,7 +16,7 @@ var frequencyDataVisuals = new Uint8Array(samples);
 var oscillators = {};
 var oscVol = {};
 var numOsc = samples;
-var oscType = "square";
+var oscType = "sine";
 
 // GLOBAL MUSIC OBJECT
 var music = new Music(ref);
@@ -28,7 +28,8 @@ function updateAudio() {
 	fft.getByteFrequencyData(frequencyData);
 	
 	for (var i=0; i<numOsc; i++) {
-		oscVol[i].gain.value = mapRange([0, 256], [0, .05], frequencyData[i]);
+		// oscVol[i].gain.value = mapRange([10000, 0], [0, 0.05], camera.position.z);
+		// oscVol[i].gain.value = mapRange([0, 256], [0, 0.05], frequencyData[i]);
 		oscillators[i].setFrequency(music.snapToNote(frequencyData[i]), 1);
 	}
 }
@@ -42,9 +43,24 @@ function changeOscillator (_oscType) {
 }
 
 function initAudio () {
+	// var request = new XMLHttpRequest();
+	// request.open("GET", 'gardenchild.mp3', true);
+	// request.responseType = "arraybuffer";
+
+	// request.onload = function() {
+	//     var source = tone.context.createBufferSource();
+	//     source.buffer = tone.context.createBuffer(request.response, false);
+	//     console.log('loaded!');
+	//     source.connect(fft);
+	//     source.toMaster();
+	//     source.start();
+	// }
+
+	// request.send();
+
 	for (var i = 0; i < numOsc; i++) {
 		oscVol[i] = tone.context.createGainNode();
-		oscVol[i].gain.value = 0;
+		oscVol[i].gain.value = 0.025;
 		oscVol[i].connect(tone);
 		oscillators[i] = new Tone.Oscillator(220, oscType);
 		oscillators[i].connect(oscVol[i]);

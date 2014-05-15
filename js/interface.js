@@ -2,6 +2,8 @@ function initInterface() {
 	// key dropdown
 	var thisKey, thisMode;
 	var thisScale = "major";
+	var currentSpeed = framesToSkip;
+
 	for(var n in baseNotes) {
 		$("#key").append('<li id="'+ n +'"><a href="#">'+ n +'</a></li>');
 		$("#"+n).click(function(eventData) {
@@ -61,4 +63,48 @@ function initInterface() {
 			// console.log(thisSound);
 		});		
 	}
+
+	$(function() {
+		var previous = 0;
+		var previousDolly = 0;		
+		$( "#slider-vertical" ).slider({
+			orientation: "vertical",
+			range: "min",
+			min: 0,
+			max: 10,
+			value: 0,
+			slide: function( event, ui ) {
+			// DO SOMETHING WITH THE UI
+				if(ui.value > previousDolly){
+					var dolly = (ui.value - previousDolly) / 5 + 1.05;
+					controls.dollyIn(dolly);
+					previousDolly = ui.value;
+				}
+				else{
+					var dolly = (previousDolly - ui.value) / 5 + 1.05;
+					controls.dollyOut(dolly);
+					previousDolly = ui.value;
+				}
+			}
+		});
+		$(function() {
+		$( "#slider" ).slider({
+			range: "min",
+			min: 0,
+			max: 100,
+			value: 0,
+			slide: function(event, ui) {
+				if(ui.value > previous){
+					controls.rotateLeft( 2*Math.PI / 90);
+					previous = ui.value;
+				}
+				else{
+					controls.rotateLeft(-2*Math.PI / 90);
+					previous = ui.value;
+				}
+			}
+		});
+		
+		});
+	});
 }

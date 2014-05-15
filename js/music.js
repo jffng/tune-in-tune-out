@@ -56,9 +56,9 @@ var Music = function(_baseFreq) {
 
 	this.currentScale = "major";
 
-	this.currentKey = "A";
+	this.currentKey = "Bb";
 
-	this.currentMode = "ionian";
+	this.currentMode = "lydian";
 
 	this.scale = createScale(this.baseFreq, this.interval, this.interval.length);
 }
