@@ -69,7 +69,7 @@ function initInterface() {
 		var previousDolly = 0;		
 		$( "#slider-vertical" ).slider({
 			orientation: "vertical",
-			range: "min",
+			range: false,
 			min: 0,
 			max: 10,
 			value: 0,
@@ -89,7 +89,7 @@ function initInterface() {
 		});
 		$(function() {
 		$( "#slider" ).slider({
-			range: "min",
+			range: false,
 			min: 0,
 			max: 100,
 			value: 0,
