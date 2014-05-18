@@ -17,48 +17,39 @@ var oscillators = {};
 var oscVol = {};
 var numOsc = samples;
 var oscType = "sine";
-var volume = .1;
+var volume = 0.1;
+var	filter = tone.context.createBiquadFilter();
 
 // GLOBAL MUSIC OBJECT
 var music = new Music(ref);
 
-var objB = [], objC = [];
 var currentWaveform = oscType;
 
 function updateAudio() {
 	fft.getByteFrequencyData(frequencyData);
-	
+
+	// get euclidean distance from the origin
+	var distance = Math.sqrt(
+		Math.pow(camera.position.x, 2) + 
+		Math.pow(camera.position.y, 2) + 
+		Math.pow(camera.position.z, 2) );
+
+	volume = Math.min(0.05,Math.max(0,(1/distance))); 
 	for (var i=0; i<numOsc; i++) {
 		// oscVol[i].gain.value = mapRange([10000, 0], [0, 0.05], camera.position.z);
-		oscVol[i].gain.value = volume * 0.025;
+		oscVol[i].gain.value = volume;
 		oscillators[i].setFrequency(music.snapToNote(frequencyData[i]), 1);
 	}
 }
 
 function changeOscillator (_oscType) {
 	for(var i = 0; i < numOsc; i++){
-		console.log(waveforms[_oscType]);
 		oscillators[i].oscillator.type = waveforms[_oscType];
 	}
 	currentWaveform = _oscType;
 }
 
 function initAudio () {
-	// var request = new XMLHttpRequest();
-	// request.open("GET", 'gardenchild.mp3', true);
-	// request.responseType = "arraybuffer";
-
-	// request.onload = function() {
-	//     var source = tone.context.createBufferSource();
-	//     source.buffer = tone.context.createBuffer(request.response, false);
-	//     console.log('loaded!');
-	//     source.connect(fft);
-	//     source.toMaster();
-	//     source.start();
-	// }
-
-	// request.send();
-
 	for (var i = 0; i < numOsc; i++) {
 		oscVol[i] = tone.context.createGainNode();
 		oscVol[i].gain.value = 0.025;
@@ -68,21 +59,36 @@ function initAudio () {
 		oscillators[i].start();
 	}
 
-	mic.connect(fft);
-	// mic.connect(fftVisuals);
+	filter.type = filter.PEAKING;
+	filter.frequency.value = 1000;
+	filter.Q.value = .06;
+	filter.gain.value = .1;
+
+	mic.connect(filter);
+
+	filter.connect(fft);
+
 	mic.start();
 
 	tone.input.connect(tone.output);
 	tone.toMaster();
+}
 
-	////////// LAURA ///////////
-	for(var i=0; i<samples; i++){
-		objB.push(0);
-	}
+function loadBuffer(bufferUrl) {
+	var request = new XMLHttpRequest();
+	request.open("GET", bufferUrl, true);
+	request.responseType = "arraybuffer";
 
-	for(var i=0; i<samples/4; i++){
-		objC.push(0);
-	}
+	request.onload = function() {
+	    var source = tone.context.createBufferSource();
+	    source.buffer = tone.context.createBuffer(request.response, false);
+	    console.log('loaded!');
+	    source.connect(fft);
+	    source.toMaster();
+	    source.start();
+	};
+
+	request.send();
 }
 
 var waveforms = {

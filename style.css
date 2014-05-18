@@ -8,6 +8,7 @@ body{
 	background-color: #ffffff;
 	margin: 0px;
 	overflow: hidden;
+	overflow-y: hidden;
 }
 
 .table-responsive tr:hover {

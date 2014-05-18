@@ -5,7 +5,6 @@
 		<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-		<script charset="utf-8" type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>    	
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,65 +35,52 @@
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-<!-- 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Key <b class="caret"></b></a>
-							<ul class="dropdown-menu" id="key">
-							</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Scale <b class="caret"></b></a>
-							<ul id="scale" class="dropdown-menu">
-							</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mode <b class="caret"></b></a>
-							<ul id="mode" class="dropdown-menu">
-							</ul>
-					</li> -->
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Sound <b class="caret"></b></a>
-							<ul id="sound" class="dropdown-menu">
-							</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Speed <b class="caret"></b></a>
-							<ul id="speed" class="dropdown-menu">
-							</ul>
-					</li>					
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#about" data-toggle="modal">About</a></li>
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Sound <b class="caret"></b></a>
+								<ul id="sound" class="dropdown-menu">
+								</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Speed <b class="caret"></b></a>
+								<ul id="speed" class="dropdown-menu">
+								</ul>
+						</li>					
 					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#about" data-toggle="modal">About</a></li>
+						</ul>
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container-fluid -->
 		</nav>
 
-	<div class="modal fade" id="about" role="dialogue" style="width: 50%; margin: 0 auto; margin-top: 100px;"> 
-		<div class="modal-dialogue">
-			<div class="modal-content">
+		<div class="modal fade" id="about" style="margin-top: 100px;">
+			<div class="modal-dialog">
+				<div class="modal-content">
 				<div class="modal-header">
-						<h4>About</h4>
-						<div class="modal-body">
-							<p> "Tune In, Tune Out" uses your computer's on-board microphone, listens to the surrounding environmental sound, and translates it into a musical landscape. </p>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">About </h4>
+				</div>
+				<div class="modal-body">
+					<p> "Tune In, Tune Out" uses your computer's on-board microphone, listens to the surrounding environmental sound, and translates it into a musical landscape. </p>
 
-							<p> An accompanying visualization appears on-screen, along with options to change the musical fundamentals (key, scale, mode) of the sounds. </p>
+					<p> An accompanying visualization appears on-screen, along with options to change the musical fundamentals (key, scale, mode) of the sounds. </p>
 
-							<p>So much effort and energy has gone into our attempts to "escape" our immediate sonic environment: conversations, distracting noises, baristas banging out old coffee grounds from the espresso press. Some of us have gone to the extent of buying "noise canceling" headphones to drown out the surrounding chaos. </p>
+					<p>So much effort and energy has gone into our attempts to "escape" our immediate sonic environment: conversations, distracting noises, baristas banging out old coffee grounds from the espresso press. Some of us have gone to the extent of buying "noise canceling" headphones to drown out the surrounding chaos. </p>
 
-							<p>But there's no denying the need / desire to focus, and there's also no shortage of aural distractions, especially living in urban areas. "Tune In, Tune Out" offers an alternative to the music and tools we use to tune out the noise around us, channeling that very noise into a sonic landscape.</p>
+					<p>But there's no denying the need / desire to focus, and there's also no shortage of aural distractions, especially living in urban areas. "Tune In, Tune Out" offers an alternative to the music and tools we use to tune out the noise around us, channeling that very noise into a sonic landscape.</p>
 
-							<p> Made with love by <a href="https://jhclaura.com/" target="blank">Laura Chen</a> and <a href="https://jffng.com" target="blank">Jeff Ong</a>. </p>
+					<p> Made with love by <a href="https://jhclaura.com/" target="blank">Laura Chen</a> and <a href="https://jffng.com" target="blank">Jeff Ong</a>. </p>
 
-							<p><a href="https://github.com/jffng/tune-in-tune-out" target="blank">GitHub here</a>.</p>
-						</div>	
-							<div class="modal-footer">
-								<a class="btn btn-primary" data-dismiss="modal"> Close </a>
-						</div>	
-				</div>			
-			</div>	
-		</div>
-	</div>
+					<p><a href="https://github.com/jffng/tune-in-tune-out" target="blank">GitHub here</a>.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
 	<div class="table-responsive" style="position: absolute; bottom: 80px; left: 40px;">
 		<table class="table">
 		<tbody>

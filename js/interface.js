@@ -95,7 +95,7 @@ function initInterface() {
 			$("#info").html('<p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + currentWaveform+'</p><p>Speed: ' + currentSpeed+'</p>');
 			// console.log(thisSound);
 		});		
-	}
+	}	
 
 	$(function() {
 		///////////////////////// SLIDERS
@@ -111,13 +111,11 @@ function initInterface() {
 					var dolly = (ui.value - previousDolly) / 25 + 1.05;
 					controls.dollyIn(dolly);
 					previousDolly = ui.value;
-					volume = Math.max(0,((1000 + camera.position.z)/1000)); 
 				}
 				else{
 					var dolly = (previousDolly - ui.value) / 25 + 1.05;
 					controls.dollyOut(dolly);
 					previousDolly = ui.value;
-					volume = Math.max(0,((1000 + camera.position.z)/1000)); 
 				}
 			}
 		});
