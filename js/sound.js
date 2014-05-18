@@ -17,6 +17,7 @@ var oscillators = {};
 var oscVol = {};
 var numOsc = samples;
 var oscType = "sine";
+var volume = .1;
 
 // GLOBAL MUSIC OBJECT
 var music = new Music(ref);
@@ -29,7 +30,7 @@ function updateAudio() {
 	
 	for (var i=0; i<numOsc; i++) {
 		// oscVol[i].gain.value = mapRange([10000, 0], [0, 0.05], camera.position.z);
-		// oscVol[i].gain.value = mapRange([0, 256], [0, 0.05], frequencyData[i]);
+		oscVol[i].gain.value = volume * 0.025;
 		oscillators[i].setFrequency(music.snapToNote(frequencyData[i]), 1);
 	}
 }

@@ -76,16 +76,17 @@ function euclideanBubbleSort(arrayOfVertices) {
 function initVisuals(){
 	//THREE.JS
 	$('body').append('<div id="container"></div>');
-	$('#container').append('<div id="info" style="font-size: 14px; font-style: italic; display: block; position: absolute; margin-top: 100px; margin-left: 40px;"><p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + oscType+'</p><p>Speed: ' + framesToSkip+'</p></div>');
+	// $('#container').append('<div id="info" style="font-size: 14px; font-style: italic; display: block; position: absolute; margin-top: 100px; margin-left: 40px;"><p>Key: '+music.currentKey + '</p><p>Scale: '+ music.currentScale + '</p><p>Mode: ' + music.currentMode+'</p><p>Waveform: ' + oscType+'</p><p>Speed: ' + framesToSkip+'</p></div>');
 	$("#container").append('<div id="slider-vertical" style="height: 80%; position: absolute; right: 40px; top: 100px"></div>');
 	$("#container").append('<div id="slider" style="width: 90%; position:absolute; left: 40px; bottom: 40px;"></div>');
+	$("#container").append('<div id="speed" style="width: 10%; position: absolute; left: 40px: top: 100px;"><input type="range" name="points" min="1" max="10"></input></div>');
 
 	//scene
 	scene = new THREE.Scene();
 	//camera
 	camera = new THREE.PerspectiveCamera( 55, width/height, 0.1, 100000 );
 	scene.add(camera);
-	camera.position.set(362,-430,492);
+	camera.position.set(1000,475,-775);
 	camera.lookAt(scene.position);
 
 	scene.fog = new THREE.FogExp2(0xcccccc, 0.0005);

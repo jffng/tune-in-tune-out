@@ -32,7 +32,7 @@ function average(arr)
 //																			  //
 ////////////////////////////////////////////////////////////////////////////////
 
-var ref = 55;
+var ref = 49;
 
 function createScale(baseFreq, interval, numNotes) {
 	var scale = [];
@@ -56,9 +56,9 @@ var Music = function(_baseFreq) {
 
 	this.currentScale = "major";
 
-	this.currentKey = "Bb";
+	this.currentKey = "G";
 
-	this.currentMode = "lydian";
+	this.currentMode = "ionian";
 
 	this.scale = createScale(this.baseFreq, this.interval, this.interval.length);
 }
@@ -188,15 +188,16 @@ var scales = {
 };
 
 var baseNotes = {
-	G: 97.9989,
-	Gb:	92.4986,
-	F:	87.3071,
-	E:	82.4069,
-	Eb:	77.7817,
-	D:	73.4162,
-	Db:	69.2957,
-	C:	65.4064,
-	B:	61.7354,
+	G: 49,
+	Ab: 51.91,
+	A:	55,
 	Bb:	58.2705,
-	A:	55
+	B:	61.7354,
+	C:	65.4064,
+	Db:	69.2957,
+	D:	73.4162,
+	Eb:	77.7817,	
+	E:	82.4069,
+	F:	87.3071,
+	Gb:	92.4986,
 };
