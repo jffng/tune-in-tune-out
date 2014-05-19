@@ -2,7 +2,7 @@ var tone = new Tone();
 var mic = new Tone.Microphone();
 
 // CREATE ANALYSER
-var fft = Tone.context.createAnalyser();
+var fft = tone.context.createAnalyser();
 fft.fftSize = 2048;
 var samples = 64;
 var frequencyData = new Uint8Array(samples);
@@ -17,7 +17,8 @@ var oscillators = {};
 var oscVol = {};
 var numOsc = samples;
 var oscType = "sine";
-var volume = 0.1;
+var currentWaveform = oscType;
+var volume;
 var	filter = tone.context.createBiquadFilter();
 
 // GLOBAL MUSIC OBJECT
@@ -26,20 +27,20 @@ var music = new Music(ref);
 var currentWaveform = oscType;
 
 function updateAudio() {
-	fft.getByteFrequencyData(frequencyData);
-
 	// get euclidean distance from the origin
 	var distance = Math.sqrt(
 		Math.pow(camera.position.x, 2) + 
 		Math.pow(camera.position.y, 2) + 
 		Math.pow(camera.position.z, 2) );
 
-	volume = Math.min(0.05,Math.max(0,(1/distance))); 
+	volume = Math.min(0.05,Math.max(0,0.005+(1/distance))); 
+
 	for (var i=0; i<numOsc; i++) {
-		// oscVol[i].gain.value = mapRange([10000, 0], [0, 0.05], camera.position.z);
 		oscVol[i].gain.value = volume;
 		oscillators[i].setFrequency(music.snapToNote(frequencyData[i]), 1);
 	}
+	fft.getByteFrequencyData(frequencyData);
+
 }
 
 function changeOscillator (_oscType) {
@@ -62,9 +63,9 @@ function initAudio () {
 	filter.type = filter.PEAKING;
 	filter.frequency.value = 1000;
 	filter.Q.value = .06;
-	filter.gain.value = .1;
+	filter.gain.value = .5;
 
-	mic.connect(filter);
+	mic.connect(fft);
 
 	filter.connect(fft);
 
