@@ -129,35 +129,35 @@ function initVisuals(){
 
 	//BUILD_MESHES_SPHERE
 	////////////////////////////////////////////////////////////
-	var modelMaterial = new THREE.MeshLambertMaterial( {color: 0xe6ec27} );
-	sphereGeometry = new THREE.SphereGeometry(10,32,32);
-	// for(var i=0; i<samples; i++){
-	// 	s[i] = Math.random()*2*Math.PI;
-	// 	t[i] = Math.random()*2*Math.PI;
-	// 	xAngle[i] = Math.cos(s[i]) * Math.sin(t[i]);
-	// 	yAngle[i] = Math.sin(s[i]) * Math.sin(t[i]);
-	// 	zAngle[i] = Math.cos(t[i]);
-	// 	spheres[i] = new THREE.Mesh(sphereGeo, modelMaterial);
-	// 	// spheres[i].scale.set(1,1,1);
-	// 	scene.add(spheres[i]);
-	// }
+	// var modelMaterial = new THREE.MeshLambertMaterial( {color: 0xe6ec27} );
+	// sphereGeometry = new THREE.SphereGeometry(10,32,32);
+	// // for(var i=0; i<samples; i++){
+	// // 	s[i] = Math.random()*2*Math.PI;
+	// // 	t[i] = Math.random()*2*Math.PI;
+	// // 	xAngle[i] = Math.cos(s[i]) * Math.sin(t[i]);
+	// // 	yAngle[i] = Math.sin(s[i]) * Math.sin(t[i]);
+	// // 	zAngle[i] = Math.cos(t[i]);
+	// // 	spheres[i] = new THREE.Mesh(sphereGeo, modelMaterial);
+	// // 	// spheres[i].scale.set(1,1,1);
+	// // 	scene.add(spheres[i]);
+	// // }
 
-	//BUILD_MESHES_SPIKE
-	////////////////////////////////////////////////////////////
-	modelMaterial = new THREE.MeshLambertMaterial( {color: 0x00ffff} );
-	loadModelSpike("models/spikeStar.js", modelMaterial);
+	// //BUILD_MESHES_SPIKE
+	// ////////////////////////////////////////////////////////////
+	// modelMaterial = new THREE.MeshLambertMaterial( {color: 0x00ffff} );
+	// loadModelSpike("models/spikeStar.js", modelMaterial);
 
-	//BUILD_MESHES_RABBIT
-	////////////////////////////////////////////////////////////
-	modelMaterial = new THREE.MeshLambertMaterial( {color: 0xf26d95} );
-	loadModelRabbit("models/rabbit.js", modelMaterial);	
+	// //BUILD_MESHES_RABBIT
+	// ////////////////////////////////////////////////////////////
+	// modelMaterial = new THREE.MeshLambertMaterial( {color: 0xf26d95} );
+	// loadModelRabbit("models/rabbit.js", modelMaterial);	
 
-	meshes = {
-		"sphere": sphereGeometry,
-		"cube": cubeGeometry,
-		"spike": spikeGeometry,
-		"rabbit": rabbitGeometry
-	};
+	// meshes = {
+	// 	"sphere": sphereGeometry,
+	// 	"cube": cubeGeometry,
+	// 	"spike": spikeGeometry,
+	// 	"rabbit": rabbitGeometry
+	// };
 
 	for(var i=0; i<samples; i++){
 		s[i] = Math.random()*2*Math.PI;
@@ -263,6 +263,12 @@ function update(){
 		// vertices[i] = new THREE.Vector3(x,y,z);
 		// euclideanBubbleSort(vertices);
 	}
+	// var distance = Math.sqrt(
+	// 	Math.pow(camera.position.x, 2) + 
+	// 	Math.pow(camera.position.y, 2) + 
+	// 	Math.pow(camera.position.z, 2) );
+
+	// volume = Math.min(0.05,Math.max(0,0.005+(1/distance))); 
 }
 
 function onWindowResize() {

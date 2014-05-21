@@ -42,7 +42,7 @@ function createScale(baseFreq, interval, numNotes) {
 		if(i > numNotes) scale[i] = scale[i-1] * twelthRootOf(interval[i-numNotes-1]);
 		if(i > numNotes*2) scale[i] = scale[i-1] * twelthRootOf(interval[i-numNotes*2-1]);
 		if(i > numNotes*3) scale[i] = scale[i-1] * twelthRootOf(interval[i-numNotes*3-1]);
-		if(i > numNotes*4) scale[i] = scale[i-1] * twelthRootOf(interval[i-numNotes*3-1]);
+		if(i > numNotes*4) scale[i] = scale[i-1] * twelthRootOf(interval[i-numNotes*4-1]);
 	}
 
 	return scale;
@@ -64,7 +64,11 @@ var Music = function(_baseFreq) {
 }
 
 Music.prototype.snapToNote = function(valueToBeTransformed) {
-	var mappedVal = mapRange([0,256], [this.scale[0], this.scale[this.scale.length-1]], valueToBeTransformed)
+
+	var mappedVal = this.scale[0] + (valueToBeTransformed) * (this.scale[this.scale.length-1] - this.scale[0]) / (256);
+		
+	// to[0] + (num - from[0]) * (to[1] - to[0]) / (from[1] - from[0]);
+	// mapRange([0,256], [this.scale[0], this.scale[this.scale.length-1]], valueToBeTransformed)
 
 	var runningClosest = 10000;
 	var returnNoteIndex;

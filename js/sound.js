@@ -1,6 +1,9 @@
 var tone = new Tone();
 var mic = new Tone.Microphone();
 
+// GLOBAL MUSIC OBJECT
+var music = new Music(ref);
+
 // CREATE ANALYSER
 var fft = tone.context.createAnalyser();
 fft.fftSize = 2048;
@@ -15,31 +18,22 @@ var frequencyDataVisuals = new Uint8Array(samples);
 // CREATE OSCILLATORS
 var oscillators = {};
 var oscVol = {};
-var numOsc = samples;
+var numOsc = samples/2;
 var oscType = "sine";
 var currentWaveform = oscType;
 var volume;
 var	filter = tone.context.createBiquadFilter();
 
-// GLOBAL MUSIC OBJECT
-var music = new Music(ref);
-
 var currentWaveform = oscType;
 
 function updateAudio() {
+	fft.getByteFrequencyData(frequencyData);
 	// get euclidean distance from the origin
-	var distance = Math.sqrt(
-		Math.pow(camera.position.x, 2) + 
-		Math.pow(camera.position.y, 2) + 
-		Math.pow(camera.position.z, 2) );
-
-	volume = Math.min(0.05,Math.max(0,0.005+(1/distance))); 
 
 	for (var i=0; i<numOsc; i++) {
-		oscVol[i].gain.value = volume;
-		oscillators[i].setFrequency(music.snapToNote(frequencyData[i]), 1);
+		oscVol[i].gain.value = (frequencyData[i]) * (.05) / (256);	
+		oscillators[i].setFrequency(music.snapToNote(frequencyData[i]));
 	}
-	fft.getByteFrequencyData(frequencyData);
 
 }
 
@@ -51,6 +45,8 @@ function changeOscillator (_oscType) {
 }
 
 function initAudio () {
+	// loadBuffer('../17.mp3');
+
 	for (var i = 0; i < numOsc; i++) {
 		oscVol[i] = tone.context.createGainNode();
 		oscVol[i].gain.value = 0.025;
@@ -60,14 +56,14 @@ function initAudio () {
 		oscillators[i].start();
 	}
 
-	filter.type = filter.PEAKING;
-	filter.frequency.value = 1000;
-	filter.Q.value = .06;
-	filter.gain.value = .5;
+	// filter.type = filter.HIGHPASS;
+	// filter.frequency.value = 100;
+	// // filter.Q.value = .06;
+	// // filter.gain.value = .5;
 
 	mic.connect(fft);
 
-	filter.connect(fft);
+	// filter.connect(fft);
 
 	mic.start();
 
