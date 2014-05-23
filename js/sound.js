@@ -31,7 +31,7 @@ function updateAudio() {
 	// get euclidean distance from the origin
 
 	for (var i=0; i<numOsc; i++) {
-		oscVol[i].gain.value = (frequencyData[i]) * (.05) / (256);	
+		oscVol[i].gain.value = (frequencyData[i]) * (0.05) / (256);	
 		oscillators[i].setFrequency(music.snapToNote(frequencyData[i]));
 	}
 
@@ -48,7 +48,7 @@ function initAudio () {
 	// loadBuffer('../17.mp3');
 
 	for (var i = 0; i < numOsc; i++) {
-		oscVol[i] = tone.context.createGainNode();
+		oscVol[i] = tone.context.createGain();
 		oscVol[i].gain.value = 0.025;
 		oscVol[i].connect(tone);
 		oscillators[i] = new Tone.Oscillator(220, oscType);
